@@ -1,5 +1,6 @@
 package com.arnold.sleepmonitor.ui.home
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.arnold.sleepmonitor.MApplication
 import com.arnold.sleepmonitor.MSensorManager
 import com.arnold.sleepmonitor.databinding.FragmentHomeBinding
+import com.arnold.sleepmonitor.recorder.LightRecorder
 import com.arnold.sleepmonitor.recorder.MAudioRecorder
 
 class HomeFragment : Fragment() {
@@ -23,6 +26,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     val TAG = "HomeFragment"
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -61,14 +65,12 @@ class HomeFragment : Fragment() {
             Log.d(TAG, "Sensors Button clicked")
             buttonSensorPressed = !buttonSensorPressed
 
-            val sensorManager = MSensorManager(MApplication.context)
-
             if (buttonSensorPressed) {
                 buttonSensors.text = "Stop Sensors"
-                sensorManager.startListener()
+                LightRecorder.startSensor()
             } else {
                 buttonSensors.text = "Start Sensors"
-                sensorManager.stopListener()
+                LightRecorder.stopSensor()
             }
         }
 
