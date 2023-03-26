@@ -1,13 +1,18 @@
 package com.arnold.sleepmonitor.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.arnold.sleepmonitor.MApplication
+import com.arnold.sleepmonitor.MSensorManager
 import com.arnold.sleepmonitor.databinding.FragmentHomeBinding
+import com.arnold.sleepmonitor.recorder.MAudioRecorder
 
 class HomeFragment : Fragment() {
 
@@ -16,6 +21,7 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    val TAG = "HomeFragment"
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -32,6 +38,40 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+//        val buttonVoice: Button = binding.buttonVoice
+//        var buttonVoicePressed = false
+//        buttonVoice.setOnClickListener() {
+//            Log.d(TAG, "Voice Button clicked")
+//            buttonVoicePressed = !buttonVoicePressed
+//
+//            val recorder = MAudioRecorder()
+//            if (buttonVoicePressed) {
+//                buttonVoice.text = "Stop Voice"
+//                recorder.printNoiseLevel()
+//            } else {
+//                buttonVoice.text = "Start Voice"
+//                recorder.stop()
+//            }
+//        }
+
+        val buttonSensors: Button = binding.buttonSensors
+        var buttonSensorPressed = false
+        buttonSensors.setOnClickListener() {
+            Log.d(TAG, "Sensors Button clicked")
+            buttonSensorPressed = !buttonSensorPressed
+
+            val sensorManager = MSensorManager(MApplication.context)
+
+            if (buttonSensorPressed) {
+                buttonSensors.text = "Stop Sensors"
+                sensorManager.startListener()
+            } else {
+                buttonSensors.text = "Start Sensors"
+                sensorManager.stopListener()
+            }
+        }
+
         return root
     }
 
