@@ -11,12 +11,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.arnold.sleepmonitor.MApplication
-import com.arnold.sleepmonitor.MSensorManager
 import com.arnold.sleepmonitor.databinding.FragmentHomeBinding
 import com.arnold.sleepmonitor.recorder.LightRecorder
 import com.arnold.sleepmonitor.recorder.LinearAccRecorder
-import com.arnold.sleepmonitor.recorder.MAudioRecorder
 import com.arnold.sleepmonitor.recorder.VoiceRecorder
 
 class HomeFragment : Fragment() {
