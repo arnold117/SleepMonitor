@@ -12,5 +12,6 @@ class MSensorEvent (type: MSensorType, value: String) {
 
 enum class MSensorType (i: Int) {
     LIGHT(1),
-    LINEAR_ACCELERATION(2)
+    LINEAR_ACCELERATION(2),
+    MICROPHONE(3)
 }
