@@ -21,6 +21,8 @@ object LinearAccRecorder: HandlerThread("LinearAccRecorder"), SensorEventListene
     private var sensorManager: SensorManager? = null
     private var sensor: Sensor? = null
     private var sensorExists = false
+
+    private var dataCount = 0
     
     init {
         sensorManager = (MApplication.context.getSystemService(Service.SENSOR_SERVICE)) as SensorManager
@@ -74,14 +76,17 @@ object LinearAccRecorder: HandlerThread("LinearAccRecorder"), SensorEventListene
                 val accY = event.values[1]
                 val accZ = event.values[2]
 
-                val msgEvent = MSensorEvent()
-                msgEvent.type = MSensorType.LINEAR_ACCELERATION
-                msgEvent.value1 = accX.toString()
-                msgEvent.value2 = accY.toString()
-                msgEvent.value3 = accZ.toString()
-                sendMessage(msgEvent)
-
-                Log.i(TAG, "X: $accX, Y: $accY, Z: $accZ")
+                dataCount++
+                if (dataCount >= 20) {
+                    dataCount = 0
+                    val msgEvent = MSensorEvent()
+                    msgEvent.type = MSensorType.LINEAR_ACCELERATION
+                    msgEvent.value1 = accX.toString()
+                    msgEvent.value2 = accY.toString()
+                    msgEvent.value3 = accZ.toString()
+                    sendMessage(msgEvent)
+                    Log.i(TAG, "X: $accX, Y: $accY, Z: $accZ (m^2/s)")
+                }
             }
         }
     }
