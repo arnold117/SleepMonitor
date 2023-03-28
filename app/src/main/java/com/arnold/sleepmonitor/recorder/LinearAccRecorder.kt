@@ -16,6 +16,7 @@ object LinearAccRecorder: HandlerThread("LinearAccRecorder"), SensorEventListene
     private val TAG = "LinearAccRecorder"
     private var handler: Handler? = null
     private var sensorThread: HandlerThread? = null
+    private var sensorHandler: Handler? = null
     
     private var sensorManager: SensorManager? = null
     private var sensor: Sensor? = null
@@ -34,10 +35,10 @@ object LinearAccRecorder: HandlerThread("LinearAccRecorder"), SensorEventListene
         Log.i(TAG, "Starting sensor")
         sensorThread = HandlerThread(TAG, Thread.NORM_PRIORITY)
         sensorThread!!.start()
-        handler = Handler(sensorThread!!.looper) //Blocks until looper is prepared, which is fairly quick
+        sensorHandler = Handler(sensorThread!!.looper) //Blocks until looper is prepared, which is fairly quick
         sensorManager!!.registerListener(this,
             sensor, SensorManager.SENSOR_DELAY_NORMAL,
-            handler
+            sensorHandler
         )
     }
 
@@ -72,6 +73,13 @@ object LinearAccRecorder: HandlerThread("LinearAccRecorder"), SensorEventListene
                 val accX = event.values[0]
                 val accY = event.values[1]
                 val accZ = event.values[2]
+
+                val msgEvent = MSensorEvent()
+                msgEvent.type = MSensorType.LINEAR_ACCELERATION
+                msgEvent.value1 = accX.toString()
+                msgEvent.value2 = accY.toString()
+                msgEvent.value3 = accZ.toString()
+                sendMessage(msgEvent)
 
                 Log.i(TAG, "X: $accX, Y: $accY, Z: $accZ")
             }

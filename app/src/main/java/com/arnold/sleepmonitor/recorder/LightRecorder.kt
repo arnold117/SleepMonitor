@@ -16,6 +16,7 @@ object LightRecorder: HandlerThread("LightRecorder"), SensorEventListener {
     private val TAG = "LightRecorder"
     private var handler: Handler? = null
     private var sensorThread: HandlerThread? = null
+    private var sensorHandler: Handler? = null
 
     private var sensorManager: SensorManager? = null
     private var sensor: Sensor? = null
@@ -33,8 +34,8 @@ object LightRecorder: HandlerThread("LightRecorder"), SensorEventListener {
         Log.i(TAG, "Starting sensor")
         sensorThread = HandlerThread(TAG, Thread.NORM_PRIORITY)
         sensorThread!!.start()
-        handler = Handler(sensorThread!!.looper) //Blocks until looper is prepared, which is fairly quick
-        sensorManager!!.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL, handler)
+        sensorHandler = Handler(sensorThread!!.looper) //Blocks until looper is prepared, which is fairly quick
+        sensorManager!!.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL, sensorHandler)
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -67,12 +68,10 @@ object LightRecorder: HandlerThread("LightRecorder"), SensorEventListener {
             if (event.sensor.type == Sensor.TYPE_LIGHT) {
                 val light = event.values[0]
 
-//                val msgEvent = MSensorEvent(
-//                    type = MSensorType.LIGHT,
-//                    value = light.toString()
-//                )
-//
-//                sendMessage(msgEvent)
+                val msgEvent = MSensorEvent()
+                msgEvent.type = MSensorType.LIGHT
+                msgEvent.value1 = light.toString()
+                sendMessage(msgEvent)
 
                 Log.i(TAG, "Light: $light")
             }

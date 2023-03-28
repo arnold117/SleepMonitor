@@ -18,6 +18,7 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
     private val TAG = "VoiceRecorder"
     private var handler: Handler? = null
     private var sensorThread: HandlerThread? = null
+    private var sensorHandler: Handler? = null
     
     val SAMPLE_RATE = 8000
     val BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT)
@@ -29,10 +30,10 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
         Log.i(TAG, "Starting sensor")
         sensorThread = HandlerThread(TAG, Thread.NORM_PRIORITY)
         sensorThread!!.start()
-        handler = Handler(sensorThread!!.looper)
+        sensorHandler = Handler(sensorThread!!.looper)
         // start
         sensorInit()
-        handler!!.post(runnable)
+        sensorHandler!!.post(runnable)
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -77,6 +78,20 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
         isRecording = true
     }
 
+    fun setHandler(handler: Handler) {
+        this.handler = handler
+    }
+
+    fun sendMessage(event: MSensorEvent) {
+        if (handler == null) {
+            return
+        }
+
+        handler?.obtainMessage(event.type.ordinal, event)?.apply {
+            sendToTarget()
+        }
+    }
+
     val runnable = Runnable {
         audioRecord?.startRecording()
         val buffer = ShortArray(BUFFER_SIZE)
@@ -90,8 +105,15 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
                 if (bufferReadResult > 0) {
                     val amplitude = sum / bufferReadResult
                     Log.i(TAG, "Current amplitude: $amplitude")
+
                     val volume = 10 * log10(amplitude)
                     Log.i(TAG, "Current volume: $volume")
+
+                    val msgEvent = MSensorEvent()
+                    msgEvent.type = MSensorType.VOICE
+                    msgEvent.value1 = amplitude.toString()
+                    msgEvent.value2 = volume.toString()
+                    sendMessage(msgEvent)
                 }
             }
 

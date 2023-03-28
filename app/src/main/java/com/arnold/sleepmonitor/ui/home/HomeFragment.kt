@@ -1,7 +1,6 @@
 package com.arnold.sleepmonitor.ui.home
 
-import android.os.Build
-import android.os.Bundle
+import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.arnold.sleepmonitor.databinding.FragmentHomeBinding
-import com.arnold.sleepmonitor.recorder.LightRecorder
-import com.arnold.sleepmonitor.recorder.LinearAccRecorder
-import com.arnold.sleepmonitor.recorder.VoiceRecorder
+import com.arnold.sleepmonitor.recorder.*
 
 class HomeFragment : Fragment() {
 
@@ -38,11 +35,44 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val buttonVoice: Button = binding.buttonVoice
+        val buttonSensors: Button = binding.buttonSensors
+        val textLight: TextView = binding.textLight
+        val textAcc: TextView = binding.textAcc
+        val textVoice: TextView = binding.textVoice
+
+        val handler: Handler = object : Handler(Looper.getMainLooper()) {
+            override fun handleMessage(msg: Message) {
+                val event = msg.obj as MSensorEvent
+                if (event.type == MSensorType.LIGHT) {
+                    textLight.text = "Light: ${event.value1}"
+                }
+                if (event.type == MSensorType.LINEAR_ACCELERATION) {
+                    textAcc.text = "Acceleration: X:${event.value1}, Y:${event.value2}, Z:${event.value3}"
+                }
+                if (event.type == MSensorType.VOICE) {
+                    textVoice.text = "Voice: Amp:${event.value1}, Vol:${event.value2}"
+                }
+            }
         }
 
-        val buttonVoice: Button = binding.buttonVoice
+        LightRecorder.setHandler(handler)
+        LinearAccRecorder.setHandler(handler)
+        VoiceRecorder.setHandler(handler)
+
+        homeViewModel.homeText.observe(viewLifecycleOwner) {
+            textView.text = it
+        }
+        homeViewModel.lightText.observe(viewLifecycleOwner) {
+            textLight.text = it
+        }
+        homeViewModel.accText.observe(viewLifecycleOwner) {
+            textAcc.text = it
+        }
+        homeViewModel.voiceText.observe(viewLifecycleOwner) {
+            textVoice.text = it
+        }
+
         var buttonVoicePressed = false
         buttonVoice.setOnClickListener() {
             Log.d(TAG, "Voice Button clicked")
@@ -58,7 +88,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-        val buttonSensors: Button = binding.buttonSensors
         var buttonSensorPressed = false
         buttonSensors.setOnClickListener() {
             Log.d(TAG, "Sensors Button clicked")
