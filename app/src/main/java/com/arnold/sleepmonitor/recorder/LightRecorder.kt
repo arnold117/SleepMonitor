@@ -73,7 +73,7 @@ object LightRecorder: HandlerThread("LightRecorder"), SensorEventListener {
                 msgEvent.value1 = light.toString()
                 sendMessage(msgEvent)
 
-                Log.i(TAG, "Light: $light")
+                Log.i(TAG, "Light: $light (Lux)")
             }
         }
     }

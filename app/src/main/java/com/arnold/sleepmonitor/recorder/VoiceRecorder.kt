@@ -20,7 +20,7 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
     private var sensorThread: HandlerThread? = null
     private var sensorHandler: Handler? = null
     
-    val SAMPLE_RATE = 8000
+    val SAMPLE_RATE = 44100
     val BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT)
 
     var audioRecord: AudioRecord? = null
@@ -92,27 +92,27 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
         }
     }
 
-    val runnable = Runnable {
+    private val runnable = Runnable {
         audioRecord?.startRecording()
         val buffer = ShortArray(BUFFER_SIZE)
         while (isRecording) {
-            val bufferReadResult = audioRecord?.read(buffer, 0, BUFFER_SIZE)
-            if (bufferReadResult != null) {
+            val bufferLength = audioRecord?.read(buffer, 0, BUFFER_SIZE)
+            if (bufferLength != null) {
                 var sum = 0.0
                 for (i in buffer.indices) {
+                    // sum of square
                     sum += buffer[i] * buffer[i]
                 }
-                if (bufferReadResult > 0) {
-                    val amplitude = sum / bufferReadResult
-                    Log.i(TAG, "Current amplitude: $amplitude")
-
-                    val volume = 10 * log10(amplitude)
-                    Log.i(TAG, "Current volume: $volume")
+                if (bufferLength > 0) {
+                    // mean
+                    var volume = sum / bufferLength
+                    // to decibel
+                    volume = 10 * log10(volume)
+                    Log.i(TAG, "Current volume: $volume (dB)")
 
                     val msgEvent = MSensorEvent()
                     msgEvent.type = MSensorType.VOICE
-                    msgEvent.value1 = amplitude.toString()
-                    msgEvent.value2 = volume.toString()
+                    msgEvent.value1 = volume.toString()
                     sendMessage(msgEvent)
                 }
             }
