@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
                     textAcc.text = "Acceleration: X:${event.value1}, Y:${event.value2}, Z:${event.value3}"
                 }
                 if (event.type == MSensorType.VOICE) {
-                    textVoice.text = "Voice: Vol:${event.value1} (dB)"
+                    textVoice.text = "Voice: Vol:${event.value1} (dB), Freq:${event.value2} (Hz)"
                 }
             }
         }

@@ -99,9 +99,13 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
             val bufferLength = audioRecord?.read(buffer, 0, BUFFER_SIZE)
             if (bufferLength != null) {
                 var sum = 0.0
+                var reverseCount = 0
                 for (i in buffer.indices) {
                     // sum of square
                     sum += buffer[i] * buffer[i]
+                    if (i < bufferLength - 1 && buffer[i] <= 0 && buffer[i+1] >= 0){
+                        reverseCount++
+                    }
                 }
                 if (bufferLength > 0) {
                     // mean
@@ -110,9 +114,14 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
                     volume = 10 * log10(volume)
                     Log.i(TAG, "Current volume: $volume (dB)")
 
+                    val time: Double = bufferLength.toDouble() / SAMPLE_RATE.toDouble()
+                    val frequency:Double = reverseCount.toDouble() / time
+                    Log.i(TAG, "Time spend: $time (s), buffer length: $bufferLength, frequency: $frequency (Hz), reverse count: $reverseCount")
+
                     val msgEvent = MSensorEvent()
                     msgEvent.type = MSensorType.VOICE
                     msgEvent.value1 = volume.toString()
+                    msgEvent.value2 = frequency.toString()
                     sendMessage(msgEvent)
                 }
             }
