@@ -3,4 +3,18 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_test">Test</string>
+    <string name="test_button">Start Test</string>
+    <string name="test_button_stop">Stop Test</string>
+    <string name="not_detected">Not Detected!</string>
+    <string name="light_text">Light Value:</string>
+    <string name="acc_x_text">Accelerator X:</string>
+    <string name="acc_y_text">Accelerator Y:</string>
+    <string name="acc_z_text">Accelerator Z:</string>
+    <string name="volume_text">Voice Volume:</string>
+    <string name="mean_hz_text">Voice Mean Frequency:</string>
+    <string name="move_text">Moves count:</string>
+    <string name="snore_text">Snore count:</string>
+    <string name="current_time_text">Current Time:</string>
+    <string name="running_time_text">Running Time</string>
 </resources>
