@@ -1,5 +1,6 @@
 package com.arnold.sleepmonitor.ui.home
 
+import android.annotation.SuppressLint
 import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +10,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.FragmentHomeBinding
 import com.arnold.sleepmonitor.recorder.*
+import com.arnold.sleepmonitor.ui.test.TestFragment
 
 class HomeFragment : Fragment() {
 
@@ -22,6 +27,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     val TAG = "HomeFragment"
 
+    @SuppressLint("CommitTransaction")
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -40,6 +46,7 @@ class HomeFragment : Fragment() {
         val textLight: TextView = binding.textLight
         val textAcc: TextView = binding.textAcc
         val textVoice: TextView = binding.textVoice
+        val buttonTest: Button = binding.buttonTest
 
         val handler: Handler = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
@@ -102,6 +109,14 @@ class HomeFragment : Fragment() {
                 LightRecorder.stopSensor()
                 LinearAccRecorder.stopSensor()
             }
+        }
+
+        buttonTest.setOnClickListener() {
+            Log.d(TAG, "Test Button clicked")
+
+            val testFragment = TestFragment()
+            val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
+            transaction.replace(R.id.navigation_home, testFragment)
         }
 
         return root
