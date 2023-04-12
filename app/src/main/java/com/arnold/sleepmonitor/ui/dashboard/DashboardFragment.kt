@@ -1,20 +1,17 @@
 package com.arnold.sleepmonitor.ui.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.arnold.sleepmonitor.FileHandler
 import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.FragmentDashboardBinding
+import com.arnold.sleepmonitor.ui.dashboard.activities.About
+import com.arnold.sleepmonitor.ui.dashboard.activities.SensorTesting
 
 class DashboardFragment : Fragment() {
 
@@ -43,12 +40,21 @@ class DashboardFragment : Fragment() {
             dash)
         listView.adapter = arrayAdapter
         listView.setOnItemClickListener { parent, view, position, id ->
-            val selectedItem = parent.getItemAtPosition(position) as String
-            Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
+//            val selectedItem = parent.getItemAtPosition(position) as String
+//            Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
 
-            if (position == 2) {
-                val intent = android.content.Intent(requireContext(), About::class.java)
-                startActivity(intent)
+            when (position) {
+                1 -> {
+                    val intent = android.content.Intent(requireContext(), SensorTesting::class.java)
+                    startActivity(intent)
+                }
+                2 -> {
+                    val intent = android.content.Intent(requireContext(), About::class.java)
+                    startActivity(intent)
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "Coming soon!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

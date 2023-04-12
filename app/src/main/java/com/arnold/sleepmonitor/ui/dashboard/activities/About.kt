@@ -1,4 +1,4 @@
-package com.arnold.sleepmonitor.ui.dashboard
+package com.arnold.sleepmonitor.ui.dashboard.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

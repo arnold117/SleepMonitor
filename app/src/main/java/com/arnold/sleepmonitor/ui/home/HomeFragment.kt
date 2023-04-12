@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.FragmentHomeBinding
 import com.arnold.sleepmonitor.recorder.*
-import com.arnold.sleepmonitor.ui.test.TestFragment
 
 class HomeFragment : Fragment() {
 
@@ -41,82 +40,9 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        val buttonVoice: Button = binding.buttonVoice
-        val buttonSensors: Button = binding.buttonSensors
-        val textLight: TextView = binding.textLight
-        val textAcc: TextView = binding.textAcc
-        val textVoice: TextView = binding.textVoice
-        val buttonTest: Button = binding.buttonTest
-
-        val handler: Handler = object : Handler(Looper.getMainLooper()) {
-            override fun handleMessage(msg: Message) {
-                val event = msg.obj as MSensorEvent
-                if (event.type == MSensorType.LIGHT) {
-                    textLight.text = "Light: ${event.value1}"
-                }
-                if (event.type == MSensorType.LINEAR_ACCELERATION) {
-                    textAcc.text = "Acceleration: X:${event.value1}, Y:${event.value2}, Z:${event.value3}"
-                }
-                if (event.type == MSensorType.VOICE) {
-                    textVoice.text = "Voice: Vol:${event.value1} (dB), Freq:${event.value2} (Hz)"
-                }
-            }
-        }
-
-        LightRecorder.setHandler(handler)
-        LinearAccRecorder.setHandler(handler)
-        VoiceRecorder.setHandler(handler)
 
         homeViewModel.homeText.observe(viewLifecycleOwner) {
             textView.text = it
-        }
-        homeViewModel.lightText.observe(viewLifecycleOwner) {
-            textLight.text = it
-        }
-        homeViewModel.accText.observe(viewLifecycleOwner) {
-            textAcc.text = it
-        }
-        homeViewModel.voiceText.observe(viewLifecycleOwner) {
-            textVoice.text = it
-        }
-
-        var buttonVoicePressed = false
-        buttonVoice.setOnClickListener() {
-            Log.d(TAG, "Voice Button clicked")
-            buttonVoicePressed = !buttonVoicePressed
-
-
-            if (buttonVoicePressed) {
-                buttonVoice.text = "Stop Voice"
-                VoiceRecorder.startSensor()
-            } else {
-                buttonVoice.text = "Start Voice"
-                VoiceRecorder.stopSensor()
-            }
-        }
-
-        var buttonSensorPressed = false
-        buttonSensors.setOnClickListener() {
-            Log.d(TAG, "Sensors Button clicked")
-            buttonSensorPressed = !buttonSensorPressed
-
-            if (buttonSensorPressed) {
-                buttonSensors.text = "Stop Sensors"
-                LightRecorder.startSensor()
-                LinearAccRecorder.startSensor()
-            } else {
-                buttonSensors.text = "Start Sensors"
-                LightRecorder.stopSensor()
-                LinearAccRecorder.stopSensor()
-            }
-        }
-
-        buttonTest.setOnClickListener() {
-            Log.d(TAG, "Test Button clicked")
-
-            val testFragment = TestFragment()
-            val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
-            transaction.replace(R.id.navigation_home, testFragment)
         }
 
         return root

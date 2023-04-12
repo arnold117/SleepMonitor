@@ -16,9 +16,13 @@
         android:theme="@style/Theme.SleepMonitor"
         tools:targetApi="31">
         <activity
-            android:name=".ui.dashboard.About"
+            android:name=".ui.dashboard.activities.SensorTesting"
             android:exported="false"
-            android:label="@string/about"/>
+            android:label="@string/title_sensor_testing"/>
+        <activity
+            android:name=".ui.dashboard.activities.About"
+            android:exported="false"
+            android:label="@string/title_about" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

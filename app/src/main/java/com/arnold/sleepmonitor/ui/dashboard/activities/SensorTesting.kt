@@ -1,39 +1,25 @@
-package com.arnold.sleepmonitor.ui.test
+package com.arnold.sleepmonitor.ui.dashboard.activities
 
-import android.annotation.SuppressLint
 import android.os.*
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
 import com.arnold.sleepmonitor.R
-import com.arnold.sleepmonitor.databinding.FragmentTestBinding
+import com.arnold.sleepmonitor.databinding.ActivityDashSensorTestingBinding
 import com.arnold.sleepmonitor.recorder.*
 
-/**
-* A simple [Fragment] subclass.
-* Use the [TestFragment.newInstance] factory method to
-* create an instance of this fragment.
-*/
-class TestFragment : Fragment() {
-    private var _binding: FragmentTestBinding? = null
-    private val binding get() = _binding!!
-    val TAG = "TestFragment"
+class SensorTesting : AppCompatActivity() {
+    private lateinit var binding: ActivityDashSensorTestingBinding
+    val TAG = "SensorTesting"
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val testViewModel =
-            ViewModelProvider(this)[TestViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        _binding = FragmentTestBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding = ActivityDashSensorTestingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val button: Button = binding.button
         val lightValue: TextView = binding.lightValue
@@ -69,29 +55,26 @@ class TestFragment : Fragment() {
         LinearAccRecorder.setHandler(handler)
         VoiceRecorder.setHandler(handler)
 
+        val startButText = resources.getString(R.string.test_button)
+        val stopButText = resources.getString(R.string.test_button_stop)
+
         var buttonPressed = false
         button.setOnClickListener {
             if (!buttonPressed) {
                 buttonPressed = true
-                "@string/test_button_stop".also { button.text = it }
+                Log.i(TAG, "Start Button pressed")
+                stopButText.also { button.text = it }
                 LightRecorder.startSensor()
                 LinearAccRecorder.startSensor()
                 VoiceRecorder.startSensor()
             } else {
                 buttonPressed = false
-                "@string/test_button".also { button.text = it }
+                Log.i(TAG, "Stop Button pressed")
+                startButText.also { button.text = it }
                 LightRecorder.stopSensor()
                 LinearAccRecorder.stopSensor()
                 VoiceRecorder.stopSensor()
             }
         }
-
-
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
