@@ -17,4 +17,9 @@
     <string name="snore_text">Snore count:</string>
     <string name="current_time_text">Current Time:</string>
     <string name="running_time_text">Running Time</string>
+    <string-array name="dash">
+        <item>Help</item>
+        <item>Language Preference</item>
+        <item>Sensor Testing</item>
+        <item>About this App</item></string-array>
 </resources>
