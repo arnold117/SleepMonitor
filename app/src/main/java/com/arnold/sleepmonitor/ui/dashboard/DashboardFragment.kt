@@ -12,6 +12,7 @@ import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.FragmentDashboardBinding
 import com.arnold.sleepmonitor.ui.dashboard.activities.About
 import com.arnold.sleepmonitor.ui.dashboard.activities.SensorTesting
+import com.arnold.sleepmonitor.ui.dashboard.activities.StorageTesting
 
 class DashboardFragment : Fragment() {
 
@@ -46,6 +47,10 @@ class DashboardFragment : Fragment() {
             when (position) {
                 1 -> {
                     val intent = android.content.Intent(requireContext(), SensorTesting::class.java)
+                    startActivity(intent)
+                }
+                2 -> {
+                    val intent = android.content.Intent(requireContext(), StorageTesting::class.java)
                     startActivity(intent)
                 }
                 3 -> {
