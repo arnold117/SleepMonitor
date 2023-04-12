@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">SleepMonitor</string>
+    <string name="version">Version 0.1</string>
+    <string name="author">Author: <a href="https://github.com/dotponder">Arnold</a></string>
+    <string name="email">Email: <a href="mailto:arnoldchow@outlook.com">arnoldchow@outlook.com</a></string>
+    <string name="copyright">Copyright © 2022–2023 Arnold. All Right Reserved.</string>
+    <string name="license">License: <a href="https://github.com/dotponder/SleepMonitor/blob/kotlin/LICENSE">MIT</a></string>
+    <string name="source_code">Source Code: <a href="https://github.com/dotponder/SleepMonitor/">GitHub Repository</a></string>
+
     <string name="title_home">Home</string>
 
     <string name="title_records">Records</string>
@@ -8,6 +15,7 @@
     <string-array name="dash">
         <item>Help</item>
         <item>Sensor Testing</item>
+        <item>Storage Testing</item>
         <item>About this App</item>
         <item>Language Preference</item>
     </string-array>
@@ -27,6 +35,8 @@
     <string name="snore_text">Snore count:</string>
     <string name="current_time_text">Current Time:</string>
     <string name="running_time_text">Running Time</string>
+
+    <string name="title_storage_testing">Storage Testing</string>
 
     <string name="title_about">About</string>
 

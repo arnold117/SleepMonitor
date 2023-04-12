@@ -48,7 +48,7 @@ class DashboardFragment : Fragment() {
                     val intent = android.content.Intent(requireContext(), SensorTesting::class.java)
                     startActivity(intent)
                 }
-                2 -> {
+                3 -> {
                     val intent = android.content.Intent(requireContext(), About::class.java)
                     startActivity(intent)
                 }
