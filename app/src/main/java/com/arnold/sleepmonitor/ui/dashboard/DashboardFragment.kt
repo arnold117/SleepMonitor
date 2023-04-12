@@ -24,8 +24,6 @@ class DashboardFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private var fileHandler = FileHandler()
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -47,6 +45,11 @@ class DashboardFragment : Fragment() {
         listView.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
             Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
+
+            if (position == 2) {
+                val intent = android.content.Intent(requireContext(), About::class.java)
+                startActivity(intent)
+            }
         }
 
         return root

@@ -19,7 +19,12 @@
     <string name="running_time_text">Running Time</string>
     <string-array name="dash">
         <item>Help</item>
-        <item>Language Preference</item>
         <item>Sensor Testing</item>
-        <item>About this App</item></string-array>
+        <item>About this App</item>
+        <item>Language Preference</item>
+    </string-array>
+    <string name="help">Help</string>
+    <string name="sensor_testing">Sensor Testing</string>
+    <string name="about">About</string>
+    <string name="language_preference">Language Preference</string>
 </resources>
