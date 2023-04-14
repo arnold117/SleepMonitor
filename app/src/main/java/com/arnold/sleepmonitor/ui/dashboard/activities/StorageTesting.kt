@@ -3,6 +3,7 @@ package com.arnold.sleepmonitor.ui.dashboard.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.arnold.sleepmonitor.FileHandler
 import com.arnold.sleepmonitor.databinding.ActivityDashStorageTestingBinding
 
@@ -15,13 +16,12 @@ class StorageTesting : AppCompatActivity() {
         val binding = ActivityDashStorageTestingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val textView = binding.textDashboard
         val editText = binding.editText
 
         val buttonRead = binding.buttonRead
         buttonRead.setOnClickListener {
             Log.d("DashboardFragment", "Read Button clicked")
-            textView.text = "Read Button clicked"
+            Toast.makeText(this, "Read Button clicked", Toast.LENGTH_SHORT).show()
 
             editText.setText(fileHandler.readData("test", "test"))
         }
@@ -29,7 +29,7 @@ class StorageTesting : AppCompatActivity() {
         val buttonWrite = binding.buttonWrite
         buttonWrite.setOnClickListener {
             Log.d("DashboardFragment", "Write Button clicked")
-            textView.text = "Write Button clicked"
+            Toast.makeText(this, "Write Button clicked", Toast.LENGTH_SHORT).show()
 
             fileHandler.checkFolder("test")
             fileHandler.saveData("test", "test", editText.text.toString())
