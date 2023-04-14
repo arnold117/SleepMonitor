@@ -55,4 +55,5 @@ dependencies {
     implementation "org.jetbrains.kotlinx:dataframe-excel:0.10.0"
 //    implementation "org.jetbrains.kotlinx:dataframe-arrow:0.10.0"
 //    implementation "org.jetbrains.kotlinx:dataframe-openapi:0.10.0"
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
