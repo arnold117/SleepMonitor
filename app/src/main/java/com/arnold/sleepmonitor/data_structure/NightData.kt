@@ -1,19 +1,19 @@
 package com.arnold.sleepmonitor.data_structure
 
 data class NightData(
-    val startTime: String,
-    val endTime: String,
-    val duration: String,
-    val meanLux: String,
-    val meanVolume: String,
-    val noiseCount: String,
-    val noiseVolume: String,
-    val environmentScore: String,
-    val deepSleepRatio: String,
-    val lightSleepRatio: String,
-    val awakeCount: String,
-    val deepContinuesScore: String,
-    val snoreCount: String,
-    val respirationQualityScore: String,
-    val sleepScore: String
+    var startTime: String,
+    var endTime: String,
+    var duration: Int,
+    var meanLux: Int,
+    var meanVolume: Double,
+    var noiseCount: Double,
+    var noiseVolume: Double,
+    var environmentScore: Int,
+    var deepSleepRatio: Double,
+    var lightSleepRatio: Double,
+    var awakeCount: Int,
+    var deepContinuesScore: Int,
+    var snoreCount: Int,
+    var respirationQualityScore: Int,
+    var sleepScore: Int
 )
