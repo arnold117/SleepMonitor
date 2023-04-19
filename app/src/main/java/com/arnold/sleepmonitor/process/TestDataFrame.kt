@@ -1,27 +1,11 @@
 package com.arnold.sleepmonitor.process
 
 import android.util.Log
-import com.arnold.sleepmonitor.data_structure.SingleTimeData
-import org.jetbrains.kotlinx.dataframe.AnyFrame
-import org.jetbrains.kotlinx.dataframe.DataFrame
-import org.jetbrains.kotlinx.dataframe.api.column
-import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
+import com.arnold.sleepmonitor.FileHandler
 
 class TestDataFrame {
-    fun list2DataFrameB(list: List<SingleTimeData>): DataFrame<*> {
-        val time by column(list.map { it.time })
-        val lux by column(list.map { it.lux })
-        val acc_x by column(list.map { it.acc_x })
-        val acc_y by column(list.map { it.acc_y })
-        val acc_z by column(list.map { it.acc_z })
-        val volume by column(list.map { it.volume })
-        val frequency by column(list.map { it.frequency })
-
-        return dataFrameOf(
-            time, lux, acc_x, acc_y, acc_z, volume, frequency
-        )
-    }
-
+    private val convert = Convert()
+    private val fileHandler = FileHandler()
     fun sampleTest() {
         val sample = listOf(
             SampleData.singleTimeData1,
@@ -36,7 +20,13 @@ class TestDataFrame {
             SampleData.singleTimeData10
         )
 
-        val dfB = list2DataFrameB(sample)
+        val dfB = convert.singleTime2DataFrame(sample)
         Log.d("TestDataFrame", "dfB: $dfB")
+
+        fileHandler.saveDataFrame("test", "test", dfB)
+
+        val dfC = fileHandler.readDataFrame("test", "test")
+        Log.d("TestDataFrame", "dfC: $dfC")
+        fileHandler.saveDataFrame("test", "test1", dfC)
     }
 }

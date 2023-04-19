@@ -3,6 +3,9 @@ package com.arnold.sleepmonitor.process
 import com.arnold.sleepmonitor.data_structure.NightData
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
 import com.arnold.sleepmonitor.data_structure.SingleUnitData
+import org.jetbrains.kotlinx.dataframe.AnyFrame
+import org.jetbrains.kotlinx.dataframe.api.column
+import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
 
 class Convert {
     private val calculator = Calculator()
@@ -30,6 +33,20 @@ class Convert {
         // end
 
         return singleUnitData
+    }
+
+    fun singleTime2DataFrame(list: List<SingleTimeData>) : AnyFrame {
+        val time by column(list.map { it.time })
+        val lux by column(list.map { it.lux })
+        val acc_x by column(list.map { it.acc_x })
+        val acc_y by column(list.map { it.acc_y })
+        val acc_z by column(list.map { it.acc_z })
+        val volume by column(list.map { it.volume })
+        val frequency by column(list.map { it.frequency })
+
+        return dataFrameOf(
+            time, lux, acc_x, acc_y, acc_z, volume, frequency
+        )
     }
 
     fun singleUnit2Night(singleUnitData: List<SingleUnitData>) : NightData {
@@ -69,5 +86,20 @@ class Convert {
         nightData.sleepScore = singleUnitData.map { it.meanLux }.average().toInt()
 
         return nightData
+    }
+
+    fun singleUnit2DataFrame(list: List<SingleUnitData>) : AnyFrame {
+        val time by column(list.map { it.time })
+        val meanLux by column(list.map { it.meanLux })
+        val movesCount by column(list.map { it.movesCount })
+        val SnoreCount by column(list.map { it.SnoreCount })
+        val meanEnvironmentVolume by column(list.map { it.meanEnvironmentVolume })
+        val noiseVolume by column(list.map { it.noiseVolume })
+        val noiseCount by column(list.map { it.noiseCount })
+        val awakeCount by column(list.map { it.awakeCount })
+
+        return dataFrameOf(
+            time, meanLux, movesCount, SnoreCount, meanEnvironmentVolume, noiseVolume, noiseCount, awakeCount
+        )
     }
 }
