@@ -10,16 +10,16 @@ object SampleData {
         -0.0012,
         0.001,
         32.0,
-        3284
+        3284.0
     )
     val singleTimeData2 = SingleTimeData(
         "2020-01-01 00:00:02",
-        11,
+        11.0,
         0.001,
-        0,
+        0.0,
         -0.0012,
-        31,
-        3142
+        31.0,
+        3142.0
     )
     val singleTimeData3 = SingleTimeData(
         "2020-01-01 00:00:03",
@@ -27,17 +27,17 @@ object SampleData {
         0.01,
         0.123,
         -0.19,
-        30,
-        3004
+        30.0,
+        3004.0
     )
     val singleTimeData4 = SingleTimeData(
         "2020-01-01 00:00:04",
-        "11.5",
+        11.5,
         0.005,
         0.128,
         -0.003,
-        32,
-        3503
+        32.0,
+        3503.0
     )
     val singleTimeData5 = SingleTimeData(
         "2020-01-01 00:00:05",
@@ -45,17 +45,17 @@ object SampleData {
         0.03,
         0.49,
         -0.08,
-        31,
-        3058
+        31.0,
+        3058.0
     )
     val singleTimeData6 = SingleTimeData(
         "2020-01-01 00:00:06",
-        11,
+        11.0,
         0.01,
         0.79,
         0.003,
-        32,
-        3179
+        32.0,
+        3179.0
     )
     val singleTimeData7 = SingleTimeData(
         "2020-01-01 00:00:07",
@@ -63,8 +63,8 @@ object SampleData {
         0.013,
         0.193,
         -0.109,
-        30,
-        3014
+        30.0,
+        3014.0
     )
     val singleTimeData8 = SingleTimeData(
         "2020-01-01 00:00:08",
@@ -72,8 +72,8 @@ object SampleData {
         0.09,
         0.012,
         -0.019,
-        30,
-        3044
+        30.0,
+        3044.0
     )
     val singleTimeData9 = SingleTimeData(
         "2020-01-01 00:00:09",
@@ -81,8 +81,8 @@ object SampleData {
         0.011,
         0.103,
         0.003,
-        34,
-        3201
+        34.0,
+        3201.0
     )
     val singleTimeData10 = SingleTimeData(
         "2020-01-01 00:00:10",
@@ -90,7 +90,7 @@ object SampleData {
         0.01,
         0.013,
         0.08,
-        32,
-        2989
+        32.0,
+        2989.0
     )
 }

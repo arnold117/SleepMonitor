@@ -7,5 +7,5 @@ data class SingleTimeData(
     val acc_y: Double,
     val acc_z: Double,
     val volume: Double,
-    val frequency: Int
+    val frequency: Double
 )
