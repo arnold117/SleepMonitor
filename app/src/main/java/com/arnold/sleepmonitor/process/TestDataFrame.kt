@@ -19,14 +19,17 @@ class TestDataFrame {
             SampleData.singleTimeData9,
             SampleData.singleTimeData10
         )
+        Log.d("TestDataFrame", "sample: $sample")
 
         val dfB = convert.singleTime2DataFrame(sample)
         Log.d("TestDataFrame", "dfB: $dfB")
 
-        fileHandler.saveDataFrame("test", "test", dfB)
-
-        val dfC = fileHandler.readDataFrame("test", "test")
-        Log.d("TestDataFrame", "dfC: $dfC")
-        fileHandler.saveDataFrame("test", "test1", dfC)
+//        fileHandler.saveDataFrame("test", "test", dfB)
+//
+//        val dfC = fileHandler.readDataFrame("test", "test")
+//        Log.d("TestDataFrame", "dfC: $dfC")
+//        fileHandler.saveDataFrame("test", "test1", dfC)
+        val singleTime = convert.dataFrame2SingleTime(dfB)
+        Log.d("TestDataFrame", "singleTime: $singleTime")
     }
 }

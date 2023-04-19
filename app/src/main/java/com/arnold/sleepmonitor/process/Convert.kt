@@ -4,6 +4,7 @@ import com.arnold.sleepmonitor.data_structure.NightData
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
 import com.arnold.sleepmonitor.data_structure.SingleUnitData
 import org.jetbrains.kotlinx.dataframe.AnyFrame
+import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.api.column
 import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
 
@@ -24,7 +25,7 @@ class Convert {
         singleUnitData.time = singleTimeData[0].time
         singleUnitData.meanLux = singleTimeData.map { it.lux }.average()
         singleUnitData.movesCount = calculator.movesCount(singleTimeData)
-        singleUnitData.SnoreCount = calculator.snoreCount(singleTimeData)
+        singleUnitData.snoreCount = calculator.snoreCount(singleTimeData)
         singleUnitData.meanEnvironmentVolume = singleTimeData.map { it.volume }.average()
         // ai generated, need to be modified
         singleUnitData.noiseVolume = singleTimeData.map { it.volume }.average()
@@ -33,20 +34,6 @@ class Convert {
         // end
 
         return singleUnitData
-    }
-
-    fun singleTime2DataFrame(list: List<SingleTimeData>) : AnyFrame {
-        val time by column(list.map { it.time })
-        val lux by column(list.map { it.lux })
-        val acc_x by column(list.map { it.acc_x })
-        val acc_y by column(list.map { it.acc_y })
-        val acc_z by column(list.map { it.acc_z })
-        val volume by column(list.map { it.volume })
-        val frequency by column(list.map { it.frequency })
-
-        return dataFrameOf(
-            time, lux, acc_x, acc_y, acc_z, volume, frequency
-        )
     }
 
     fun singleUnit2Night(singleUnitData: List<SingleUnitData>) : NightData {
@@ -81,18 +68,32 @@ class Convert {
         nightData.lightSleepRatio = singleUnitData.filter { it.meanLux > 0.1 }.size.toDouble() / singleUnitData.size
         nightData.awakeCount = singleUnitData.map { it.awakeCount }.average().toInt()
         nightData.deepContinuesScore = singleUnitData.filter { it.meanLux < 0.1 }.size
-        nightData.snoreCount = singleUnitData.map { it.SnoreCount }.average().toInt()
+        nightData.snoreCount = singleUnitData.map { it.snoreCount }.average().toInt()
         nightData.respirationQualityScore = singleUnitData.map { it.meanEnvironmentVolume }.average().toInt()
         nightData.sleepScore = singleUnitData.map { it.meanLux }.average().toInt()
 
         return nightData
     }
 
+    fun singleTime2DataFrame(list: List<SingleTimeData>) : AnyFrame {
+        val time by column(list.map { it.time })
+        val lux by column(list.map { it.lux })
+        val acc_x by column(list.map { it.acc_x })
+        val acc_y by column(list.map { it.acc_y })
+        val acc_z by column(list.map { it.acc_z })
+        val volume by column(list.map { it.volume })
+        val frequency by column(list.map { it.frequency })
+
+        return dataFrameOf(
+            time, lux, acc_x, acc_y, acc_z, volume, frequency
+        )
+    }
+
     fun singleUnit2DataFrame(list: List<SingleUnitData>) : AnyFrame {
         val time by column(list.map { it.time })
         val meanLux by column(list.map { it.meanLux })
         val movesCount by column(list.map { it.movesCount })
-        val SnoreCount by column(list.map { it.SnoreCount })
+        val SnoreCount by column(list.map { it.snoreCount })
         val meanEnvironmentVolume by column(list.map { it.meanEnvironmentVolume })
         val noiseVolume by column(list.map { it.noiseVolume })
         val noiseCount by column(list.map { it.noiseCount })
@@ -101,5 +102,61 @@ class Convert {
         return dataFrameOf(
             time, meanLux, movesCount, SnoreCount, meanEnvironmentVolume, noiseVolume, noiseCount, awakeCount
         )
+    }
+
+    fun dataFrame2SingleTime(dataFrame: DataFrame<*>) : List<SingleTimeData> {
+        val time = dataFrame["time"].toList()
+        val lux = dataFrame["lux"].toList()
+        val acc_x = dataFrame["acc_x"].toList()
+        val acc_y = dataFrame["acc_y"].toList()
+        val acc_z = dataFrame["acc_z"].toList()
+        val volume = dataFrame["volume"].toList()
+        val frequency = dataFrame["frequency"].toList()
+
+        val list = mutableListOf<SingleTimeData>()
+        for (i in time.indices) {
+            list.add(
+                SingleTimeData(
+                    time[i].toString(),
+                    lux[i].toString().toDouble(),
+                    acc_x[i].toString().toDouble(),
+                    acc_y[i].toString().toDouble(),
+                    acc_z[i].toString().toDouble(),
+                    volume[i].toString().toDouble(),
+                    frequency[i].toString().toDouble()
+                )
+            )
+        }
+
+        return list
+    }
+
+    fun dataFrame2SingleUnit(dataFrame: DataFrame<*>) : List<SingleUnitData> {
+        val time = dataFrame["time"].toList()
+        val meanLux = dataFrame["meanLux"].toList()
+        val movesCount = dataFrame["movesCount"].toList()
+        val snoreCount = dataFrame["snoreCount"].toList()
+        val meanEnvironmentVolume = dataFrame["meanEnvironmentVolume"].toList()
+        val noiseVolume = dataFrame["noiseVolume"].toList()
+        val noiseCount = dataFrame["noiseCount"].toList()
+        val awakeCount = dataFrame["awakeCount"].toList()
+
+        val list = mutableListOf<SingleUnitData>()
+        for (i in time.indices) {
+            list.add(
+                SingleUnitData(
+                    time[i].toString(),
+                    meanLux[i].toString().toDouble(),
+                    movesCount[i].toString().toInt(),
+                    snoreCount[i].toString().toInt(),
+                    meanEnvironmentVolume[i].toString().toDouble(),
+                    noiseVolume[i].toString().toDouble(),
+                    noiseCount[i].toString().toInt(),
+                    awakeCount[i].toString().toInt()
+                )
+            )
+        }
+
+        return list
     }
 }

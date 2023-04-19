@@ -4,7 +4,7 @@ data class SingleUnitData(
     var time: String,
     var meanLux: Double,
     var movesCount: Int,
-    var SnoreCount: Int,
+    var snoreCount: Int,
     var meanEnvironmentVolume: Double,
     var noiseVolume: Double,
     var noiseCount: Int,
