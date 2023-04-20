@@ -1,6 +1,10 @@
 package com.arnold.sleepmonitor
 
 import android.util.Log
+import com.arnold.sleepmonitor.data_structure.SingleUnitData
+import org.jetbrains.kotlinx.dataframe.DataFrame
+import org.jetbrains.kotlinx.dataframe.io.readCSV
+import org.jetbrains.kotlinx.dataframe.io.writeCSV
 import java.io.File
 
 class FileHandler{
@@ -34,5 +38,20 @@ class FileHandler{
 
         Log.d("FileHandler", "Saving to file: $folderName/$filename")
         File(path, filename).writeText(data)
+    }
+
+    fun readDataFrame(folderName: String, identifier: String) : DataFrame<*> {
+        val filename = "$folderName-$identifier.csv"
+        val path = File(context.getExternalFilesDir(null), folderName)
+
+        Log.d("FileHandler", "Reading file: $folderName/$filename")
+        return DataFrame.readCSV(File(path, filename))
+    }
+    fun saveDataFrame(folderName: String, identifier: String, data: DataFrame<*>) {
+        val filename = "$folderName-$identifier.csv"
+        val path = File(context.getExternalFilesDir(null), folderName)
+
+        Log.d("FileHandler", "Saving to file: $folderName/$filename")
+        data.writeCSV(File(path, filename))
     }
 }

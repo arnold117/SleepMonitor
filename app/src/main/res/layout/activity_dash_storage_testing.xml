@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.activities.StorageTesting">
 
-    <TextView
-        android:id="@+id/text_dashboard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="This is testing for internal storage"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/button_read"
         android:layout_width="wrap_content"
@@ -30,7 +15,7 @@
         android:layout_marginTop="100dp"
         android:text="Read"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_dashboard" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text" />
 
     <Button
         android:id="@+id/button_write"
@@ -41,20 +26,18 @@
         android:layout_marginRight="80dp"
         android:text="Write"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_dashboard" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text" />
 
     <EditText
         android:id="@+id/edit_text"
         android:layout_width="285dp"
         android:layout_height="43dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Add something here"
-        app:layout_constraintBottom_toTopOf="@+id/text_dashboard"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.778" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
