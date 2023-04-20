@@ -26,7 +26,8 @@ class StorageTesting : AppCompatActivity() {
 
             editText.setText(fileHandler.readData("test", "test"))
             val dataTest = TestDataFrame()
-            dataTest.sampleTest()
+//            dataTest.sampleTest()
+            dataTest.testRead2Unit()
         }
 
         val buttonWrite = binding.buttonWrite

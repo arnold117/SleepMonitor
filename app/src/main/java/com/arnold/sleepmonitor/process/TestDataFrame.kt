@@ -32,4 +32,13 @@ class TestDataFrame {
         val singleTime = convert.dataFrame2SingleTime(dfB)
         Log.d("TestDataFrame", "singleTime: $singleTime")
     }
+
+    fun testRead2Unit() {
+        val df = fileHandler.readDataFrame("test", "04190420")
+        Log.d("TestDataFrame", "df: $df")
+        val singleUnit = convert.dataFrame2SingleUnit(df)
+        Log.d("TestDataFrame", "singleUnit: $singleUnit")
+        val nightData = convert.singleUnit2Night(singleUnit)
+        Log.d("TestDataFrame", "nightData: $nightData")
+    }
 }
