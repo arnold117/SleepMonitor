@@ -141,7 +141,7 @@
         android:id="@+id/text_voice_mean_hz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mean_hz_text"
+        android:text="@string/reverse_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
@@ -150,7 +150,7 @@
         app:layout_constraintVertical_bias="0.4" />
 
     <TextView
-        android:id="@+id/voice_mean_hz_value"
+        android:id="@+id/voice_reverse_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/not_detected"

@@ -34,7 +34,7 @@
     <string name="acc_y_text">Accelerator Y:</string>
     <string name="acc_z_text">Accelerator Z:</string>
     <string name="volume_text">Voice Volume:</string>
-    <string name="mean_hz_text">Voice Mean Frequency:</string>
+    <string name="reverse_text">Voice Reverse Count:</string>
     <string name="move_text">Moves count:</string>
     <string name="snore_text">Snore count:</string>
     <string name="current_time_text">Current Time:</string>

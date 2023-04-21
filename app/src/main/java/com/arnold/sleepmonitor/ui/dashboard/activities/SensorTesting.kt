@@ -14,7 +14,6 @@ class SensorTesting : AppCompatActivity() {
     private lateinit var binding: ActivityDashSensorTestingBinding
     val TAG = "SensorTesting"
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,7 +26,7 @@ class SensorTesting : AppCompatActivity() {
         val accYValue: TextView = binding.accYValue
         val accZValue: TextView = binding.accZValue
         val voiceVolumeValue: TextView = binding.voiceVolumeValue
-        val voiceMeanHzValue: TextView = binding.voiceMeanHzValue
+        val voiceReverseCount: TextView = binding.voiceReverseCount
         val moveValue: TextView = binding.moveValue
         val snoreValue: TextView = binding.snoreValue
         val timeValue: TextView = binding.timeValue
@@ -46,7 +45,7 @@ class SensorTesting : AppCompatActivity() {
                 }
                 if (event.type == MSensorType.VOICE) {
                     voiceVolumeValue.text = event.value1
-                    voiceMeanHzValue.text = event.value2
+                    voiceReverseCount.text = event.value2
                 }
             }
         }

@@ -112,16 +112,12 @@ object VoiceRecorder: HandlerThread("VoiceRecorder") {
                     var volume = sum / bufferLength
                     // to decibel
                     volume = 10 * log10(volume)
-                    Log.i(TAG, "Current volume: $volume (dB)")
-
-                    val time: Double = bufferLength.toDouble() / SAMPLE_RATE.toDouble()
-                    val frequency:Double = reverseCount.toDouble() / time
-                    Log.i(TAG, "Time spend: $time (s), buffer length: $bufferLength, frequency: $frequency (Hz), reverse count: $reverseCount")
+                    Log.i(TAG, "Current volume: $volume (dB), reverse count: $reverseCount")
 
                     val msgEvent = MSensorEvent()
                     msgEvent.type = MSensorType.VOICE
                     msgEvent.value1 = volume.toString()
-                    msgEvent.value2 = frequency.toString()
+                    msgEvent.value2 = reverseCount.toString()
                     sendMessage(msgEvent)
                 }
             }
