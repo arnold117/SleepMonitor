@@ -18,6 +18,9 @@ class DayFragment : Fragment() {
         _binding = FragmentDayBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val dayBar = binding.dayBarChart
+
+
         return root
     }
 

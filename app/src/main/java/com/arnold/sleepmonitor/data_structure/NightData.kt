@@ -6,14 +6,11 @@ data class NightData(
     var duration: Int,
     var meanLux: Int,
     var meanVolume: Double,
-    var noiseCount: Double,
-    var noiseVolume: Double,
     var environmentScore: Int,
     var deepSleepRatio: Double,
     var lightSleepRatio: Double,
     var awakeCount: Int,
     var deepContinuesScore: Int,
-    var snoreCount: Int,
     var respirationQualityScore: Int,
     var sleepScore: Int
 )

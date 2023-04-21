@@ -5,8 +5,7 @@ data class SingleUnitData(
     var meanLux: Double,
     var movesCount: Int,
     var snoreCount: Int,
+    var respiratoryCount: Int,
     var meanEnvironmentVolume: Double,
-    var noiseVolume: Double,
-    var noiseCount: Int,
-    var awakeCount: Int
+    var status: Int, // 0 for deep sleep, 1 for light sleep, 2 for awake
 )
