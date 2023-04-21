@@ -10,6 +10,10 @@
     <string name="title_home">Home</string>
 
     <string name="title_records">Records</string>
+    <string name="records_menu_day">Day</string>
+    <string name="records_menu_week">Week</string>
+    <string name="records_menu_month">Month</string>
+    <string name="records_menu_year">Year</string>
 
     <string name="title_dashboard">Dashboard</string>
     <string-array name="dash">

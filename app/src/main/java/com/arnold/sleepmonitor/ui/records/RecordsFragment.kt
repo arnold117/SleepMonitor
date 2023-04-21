@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.FragmentRecordsBinding
 
 class RecordsFragment : Fragment() {
@@ -22,16 +21,47 @@ class RecordsFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val recordsViewModel =
-                ViewModelProvider(this).get(RecordsViewModel::class.java)
-
         _binding = FragmentRecordsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        recordsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val dayButton = binding.recordsMenuDay
+        val weekButton = binding.recordsMenuWeek
+        val monthButton = binding.recordsMenuMonth
+        val yearButton = binding.recordsMenuYear
+
+        val dayFragment = DayFragment()
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(R.id.records_fragment_container, dayFragment)
+        transaction.commit()
+
+        dayButton.setOnClickListener() {
+            val dayFragment = DayFragment()
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.records_fragment_container, dayFragment)
+            transaction.commit()
         }
+
+        weekButton.setOnClickListener() {
+            val weekFragment = WeekFragment()
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.records_fragment_container, weekFragment)
+            transaction.commit()
+        }
+
+        monthButton.setOnClickListener() {
+            val monthFragment = MonthFragment()
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.records_fragment_container, monthFragment)
+            transaction.commit()
+        }
+
+        yearButton.setOnClickListener() {
+            val yearFragment = YearFragment()
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.records_fragment_container, yearFragment)
+            transaction.commit()
+        }
+
         return root
     }
 
