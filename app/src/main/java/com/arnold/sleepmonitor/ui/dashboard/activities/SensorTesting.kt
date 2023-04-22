@@ -76,4 +76,11 @@ class SensorTesting : AppCompatActivity() {
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LightRecorder.stopSensor()
+        LinearAccRecorder.stopSensor()
+        VoiceRecorder.stopSensor()
+    }
 }
