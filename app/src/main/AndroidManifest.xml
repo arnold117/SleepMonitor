@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SleepMonitor"
         tools:targetApi="31">
         <activity
+            android:name=".ui.home.activities.SleepActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.dashboard.activities.StorageTesting"
             android:exported="false" />
         <activity

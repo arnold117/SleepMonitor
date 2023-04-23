@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.FragmentRecordsBinding
+import com.arnold.sleepmonitor.ui.records.fragments.DayFragment
+import com.arnold.sleepmonitor.ui.records.fragments.MonthFragment
+import com.arnold.sleepmonitor.ui.records.fragments.WeekFragment
+import com.arnold.sleepmonitor.ui.records.fragments.YearFragment
 
 class RecordsFragment : Fragment() {
 

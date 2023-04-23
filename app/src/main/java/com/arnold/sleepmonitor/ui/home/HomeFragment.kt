@@ -11,6 +11,7 @@ import com.arnold.sleepmonitor.Cache
 import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.FragmentHomeBinding
 import com.arnold.sleepmonitor.recorder.*
+import com.arnold.sleepmonitor.ui.home.activities.SleepActivity
 
 class HomeFragment : Fragment() {
 
@@ -38,23 +39,11 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, "Go to Records Page for more detail!", Toast.LENGTH_SHORT).show()
         }
 
-        if (Cache.isRecording) {
-            buttonRecording.setImageResource(R.mipmap.ic_action_stop)
-            btnStat.text = "Recording, Have a good sleep!"
-        } else {
-            buttonRecording.setImageResource(R.mipmap.ic_action_play)
-            btnStat.text = "Press the button to start recording"
-        }
-
         buttonRecording.setOnClickListener {
             Cache.isRecording = !Cache.isRecording
-            if (Cache.isRecording) {
-                buttonRecording.setImageResource(R.mipmap.ic_action_stop)
-                btnStat.text = "Recording, Have a good sleep!"
-            } else {
-                buttonRecording.setImageResource(R.mipmap.ic_action_play)
-                btnStat.text = "Press the button to start recording"
-            }
+            // go to activity
+            val intent = android.content.Intent(context, SleepActivity::class.java)
+            startActivity(intent)
         }
 
         return root
