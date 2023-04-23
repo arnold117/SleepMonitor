@@ -39,4 +39,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="100dp"/>
 
+    <TextView
+        android:id="@+id/current_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Good night!"
+        android:textAlignment="center"
+        android:textSize="70sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

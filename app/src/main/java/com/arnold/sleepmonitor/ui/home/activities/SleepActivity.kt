@@ -8,6 +8,7 @@ import androidx.core.app.TaskStackBuilder
 import com.arnold.sleepmonitor.MainActivity
 import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.ActivitySleepBinding
+import java.time.format.DateTimeFormatter
 
 class SleepActivity : AppCompatActivity() {
 
@@ -27,10 +28,21 @@ class SleepActivity : AppCompatActivity() {
         val sleepButton = binding.sleepButton
         alertBuilder = AlertDialog.Builder(this)
 
+        Thread(timeRunnable).start()
+
         createNotificationChannel()
 
         sleepButton.setOnClickListener {
             backToHome()
+        }
+    }
+
+    private val timeRunnable = object : Runnable {
+        override fun run() {
+            val formatter = DateTimeFormatter.ofPattern("hh:mm:ss")
+            val time = java.time.LocalTime.now().format(formatter)
+            binding.currentTime.text = time
+            binding.currentTime.postDelayed(this, 1000)
         }
     }
 
