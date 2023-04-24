@@ -62,7 +62,7 @@
                 android:id="@+id/day_bar_chart"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -112,29 +112,9 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/day_pie_chart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:layout_marginTop="10dp"
                 />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:text="Deep Sleep Ratio"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:text="Light Sleep Ratio"/>
 
             <TextView
                 android:layout_width="match_parent"
