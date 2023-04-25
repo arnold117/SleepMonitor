@@ -1,22 +1,21 @@
-package com.arnold.sleepmonitor.ui.records
+package com.arnold.sleepmonitor.ui.records.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arnold.sleepmonitor.databinding.FragmentYearBinding
+import com.arnold.sleepmonitor.databinding.FragmentMonthBinding
 
-class YearFragment : Fragment() {
-
-    private var _binding: FragmentYearBinding? = null
+class MonthFragment : Fragment() {
+    private var _binding: FragmentMonthBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentYearBinding.inflate(inflater, container, false)
+        _binding = FragmentMonthBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root

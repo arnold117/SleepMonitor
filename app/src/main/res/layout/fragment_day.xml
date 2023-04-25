@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.records.DayFragment">
+    tools:context=".ui.records.fragments.DayFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -58,11 +58,11 @@
                 android:textSize="20sp"
                 android:text="End Time"/>
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/day_bar_chart"
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/day_line_chart"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -112,29 +112,9 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/day_pie_chart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_marginTop="10dp"
                 />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:text="Deep Sleep Ratio"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:text="Light Sleep Ratio"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -190,6 +170,13 @@
                 android:textSize="16sp"
                 android:text="Environmental Factors"/>
 
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/env_line_chart"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -238,7 +225,7 @@
                 android:layout_marginEnd="8dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:text="Envirnment Score"/>
+                android:text="Environment Score"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
