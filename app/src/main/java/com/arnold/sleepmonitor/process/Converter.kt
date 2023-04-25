@@ -8,7 +8,9 @@ import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.api.column
 import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
 
-object Converter {
+class Converter {
+    private val calculator = Calculator()
+
     fun singleTime2DataFrame(list: List<SingleTimeData>) : AnyFrame {
         val time by column(list.map { it.time })
         val lux by column(list.map { it.lux })
@@ -89,16 +91,16 @@ object Converter {
         return NightData(
             list.first().time,
             list.last().time,
-            Calculator.duration(list.first().time, list.last().time),
+            calculator.duration(list.first().time, list.last().time),
             list.map { it.meanLux }.average(),
             list.map { it.meanEnvironmentVolume }.average(),
-            Calculator.environmentScore(list),
+            calculator.environmentScore(list),
             list.filter { it.status == 0 }.size.toDouble() / list.size.toDouble(),
             list.filter { it.status == 1 }.size.toDouble() / list.size.toDouble(),
             list.filter { it.status == 2 }.size,
-            Calculator.deepContinuesScore(list),
-            Calculator.respirationQualityScore(list),
-            Calculator.sleepScore(list),
+            calculator.deepContinuesScore(list),
+            calculator.respirationQualityScore(list),
+            calculator.sleepScore(list),
         )
     }
 

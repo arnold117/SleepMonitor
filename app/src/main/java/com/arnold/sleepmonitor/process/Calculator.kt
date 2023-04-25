@@ -6,7 +6,7 @@ import com.arnold.sleepmonitor.data_structure.SingleUnitData
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-object Calculator {
+class Calculator {
     fun movesCount(singleTimeData: List<SingleTimeData>) : Int {
         return singleTimeData.filter {
             it.acc_x > 0.1 || it.acc_y > 0.1 || it.acc_z > 0.1
