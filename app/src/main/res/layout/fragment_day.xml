@@ -170,6 +170,13 @@
                 android:textSize="16sp"
                 android:text="Environmental Factors"/>
 
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/env_line_chart"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,7 +225,7 @@
                 android:layout_marginEnd="8dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:text="Envirnment Score"/>
+                android:text="Environment Score"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

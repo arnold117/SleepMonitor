@@ -9,8 +9,10 @@ import com.arnold.sleepmonitor.databinding.FragmentDayBinding
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 
 class DayFragment : Fragment() {
     private var _binding: FragmentDayBinding? = null
@@ -25,6 +27,7 @@ class DayFragment : Fragment() {
 
         setDayLineChart()
         setDayPieChart()
+        setEnvLineChart()
 
         return root
     }
@@ -83,7 +86,6 @@ class DayFragment : Fragment() {
 
         line.xAxis.apply {
             setDrawGridLines(false)
-            setDrawAxisLine(false)
             position = XAxis.XAxisPosition.BOTTOM
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
@@ -94,7 +96,6 @@ class DayFragment : Fragment() {
 
         line.axisLeft.apply {
             setDrawGridLines(false)
-            setDrawAxisLine(false)
             setLabelCount(3, true)
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
@@ -105,7 +106,6 @@ class DayFragment : Fragment() {
 
         line.axisRight.apply {
             setDrawGridLines(false)
-            setDrawAxisLine(false)
             setDrawLabels(false)
         }
 
@@ -146,6 +146,103 @@ class DayFragment : Fragment() {
         pie.setTouchEnabled(false)
 
         pie.invalidate()
+    }
+
+    private fun setEnvLineChart(envLine : LineChart = binding.envLineChart) {
+        val timeList = ArrayList<String>()
+        val illuminationList = ArrayList<Float>()
+        val voiceVolumeList = ArrayList<Float>()
+
+        timeList.add("22:00")
+        timeList.add("23:00")
+        timeList.add("00:00")
+        timeList.add("01:00")
+        timeList.add("02:00")
+        timeList.add("03:00")
+        timeList.add("04:00")
+        timeList.add("05:00")
+        timeList.add("06:00")
+        timeList.add("07:00")
+        timeList.add("08:00")
+
+        illuminationList.add(0.5f)
+        illuminationList.add(0.3f)
+        illuminationList.add(0.2f)
+        illuminationList.add(0.1f)
+        illuminationList.add(0.2f)
+        illuminationList.add(0.1f)
+        illuminationList.add(0.2f)
+        illuminationList.add(0.1f)
+        illuminationList.add(0.2f)
+        illuminationList.add(0.2f)
+        illuminationList.add(0.3f)
+
+        voiceVolumeList.add(5f)
+        voiceVolumeList.add(3f)
+        voiceVolumeList.add(2f)
+        voiceVolumeList.add(1f)
+        voiceVolumeList.add(2f)
+        voiceVolumeList.add(3f)
+        voiceVolumeList.add(4f)
+        voiceVolumeList.add(5f)
+        voiceVolumeList.add(6f)
+        voiceVolumeList.add(7f)
+        voiceVolumeList.add(8f)
+
+        val illuminationLineChartEntry = ArrayList<Entry>()
+        for ((i, value) in illuminationList.withIndex()) {
+            illuminationLineChartEntry.add(Entry(i.toFloat(), value))
+        }
+
+        val voiceVolumeLineChartEntry = ArrayList<Entry>()
+        for ((i, value) in voiceVolumeList.withIndex()) {
+            voiceVolumeLineChartEntry.add(Entry(i.toFloat(), value))
+        }
+
+        val illuminationLineDataSet = LineDataSet(illuminationLineChartEntry, "Illumination")
+        illuminationLineDataSet.setDrawCircles(false)
+        illuminationLineDataSet.setDrawValues(false)
+        illuminationLineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        illuminationLineDataSet.lineWidth = 3f
+        illuminationLineDataSet.color = resources.getColor(android.R.color.holo_blue_light)
+        illuminationLineDataSet.axisDependency = YAxis.AxisDependency.LEFT
+
+        val voiceVolumeLineDataSet = LineDataSet(voiceVolumeLineChartEntry, "Voice Volume")
+        voiceVolumeLineDataSet.setDrawCircles(false)
+        voiceVolumeLineDataSet.setDrawValues(false)
+        voiceVolumeLineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        voiceVolumeLineDataSet.lineWidth = 3f
+        voiceVolumeLineDataSet.color = resources.getColor(android.R.color.holo_green_light)
+        voiceVolumeLineDataSet.axisDependency = YAxis.AxisDependency.RIGHT
+
+        val lineData = LineData(illuminationLineDataSet, voiceVolumeLineDataSet)
+        envLine.data = lineData
+
+        envLine.description.isEnabled = false
+        envLine.setDrawGridBackground(false)
+        envLine.setDrawBorders(false)
+        envLine.setTouchEnabled(false)
+
+        envLine.xAxis.apply {
+            setDrawGridLines(false)
+            position = XAxis.XAxisPosition.BOTTOM
+            valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return timeList[value.toInt()]
+                }
+            }
+        }
+
+        envLine.axisLeft.apply {
+            setDrawGridLines(false)
+            textColor = resources.getColor(android.R.color.holo_blue_light)
+        }
+
+        envLine.axisRight.apply {
+            setDrawGridLines(false)
+            textColor = resources.getColor(android.R.color.holo_green_light)
+        }
+
     }
 
     override fun onDestroyView() {
