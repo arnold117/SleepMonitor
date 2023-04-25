@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.Toast
 import com.arnold.sleepmonitor.FileHandler
 import com.arnold.sleepmonitor.databinding.ActivityDashStorageTestingBinding
+import com.arnold.sleepmonitor.process.Calculator
+import com.arnold.sleepmonitor.process.Converter
 
 class StorageTesting : AppCompatActivity() {
     private var fileHandler = FileHandler()
@@ -23,8 +25,13 @@ class StorageTesting : AppCompatActivity() {
             Log.d("DashboardFragment", "Read Button clicked")
             Toast.makeText(this, "Read Button clicked", Toast.LENGTH_SHORT).show()
 
-            editText.setText(fileHandler.readData("test", "test"))
-            Log.d("DashboardFragment", fileHandler.listFileNames("test").toString())
+//            editText.setText(fileHandler.readData("test", "test"))
+//            Log.d("DashboardFragment", fileHandler.listFileNames("test").toString())
+            val df = fileHandler.readDataFrame("test", "singleTime")
+
+            val singleTimeData = Converter.dataFrame2SingleTime(df)
+            val duration = Calculator.duration(singleTimeData)
+            editText.setText(duration.toString())
         }
 
         val buttonWrite = binding.buttonWrite

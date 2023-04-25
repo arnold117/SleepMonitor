@@ -8,21 +8,18 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.arnold.sleepmonitor.Cache
 import com.arnold.sleepmonitor.FileHandler
 import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
 import com.arnold.sleepmonitor.databinding.ActivityDashSensorTestingBinding
-import com.arnold.sleepmonitor.process.Convert
 import com.arnold.sleepmonitor.recorder.*
-import java.time.format.DateTimeFormatter
 
 class SensorTesting : AppCompatActivity() {
     private lateinit var binding: ActivityDashSensorTestingBinding
     val TAG = "SensorTesting"
 
     val dataArray = ArrayList<SingleTimeData>()
-
-    private val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +68,7 @@ class SensorTesting : AppCompatActivity() {
 
                 if (lightCount && accCount && voiceCount) {
                     dataArray.add(SingleTimeData(
-                        java.time.LocalDateTime.now().format(timeFormatter),
+                        java.time.LocalDateTime.now().format(Cache.timeFormatter),
                         lightValue.text.toString().toDouble(),
                         accXValue.text.toString().toDouble(),
                         accYValue.text.toString().toDouble(),

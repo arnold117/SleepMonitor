@@ -1,5 +1,7 @@
 package com.arnold.sleepmonitor
 
+import java.time.format.DateTimeFormatter
+
 object Cache {
-    var isRecording = false
+    val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-hh:mm:ss")
 }
