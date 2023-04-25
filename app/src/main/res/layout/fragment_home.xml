@@ -59,30 +59,10 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <TextView
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/day_line_chart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Start Time"
-                android:textAlignment="center"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="End Time"
-                android:textAlignment="center"
-                android:textSize="20sp" />
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/day_bar_chart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_marginTop="10dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
