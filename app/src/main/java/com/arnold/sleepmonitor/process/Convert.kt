@@ -10,6 +10,7 @@ import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
 
 class Convert {
     private val calculator = Calculator()
+    /*
     fun singleTime2Unit(singleTimeData: List<SingleTimeData>) : SingleUnitData {
         val singleUnitData = SingleUnitData(
             "0",
@@ -105,5 +106,5 @@ class Convert {
         }
 
         return list
-    }
+    }*/
 }
