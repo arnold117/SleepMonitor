@@ -13,6 +13,7 @@ import com.arnold.sleepmonitor.FileHandler
 import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
 import com.arnold.sleepmonitor.databinding.ActivityDashSensorTestingBinding
+import com.arnold.sleepmonitor.process.Converter
 import com.arnold.sleepmonitor.recorder.*
 
 class SensorTesting : AppCompatActivity() {
@@ -65,7 +66,7 @@ class SensorTesting : AppCompatActivity() {
                     voiceReverseCount.text = event.value2
                     voiceCount = true
                 }
-
+                /*
                 if (lightCount && accCount && voiceCount) {
                     dataArray.add(SingleTimeData(
                         java.time.LocalDateTime.now().format(Cache.timeFormatter),
@@ -84,13 +85,12 @@ class SensorTesting : AppCompatActivity() {
                         LightRecorder.stopSensor()
                         LinearAccRecorder.stopSensor()
                         VoiceRecorder.stopSensor()
-                        val convert = Convert()
                         val fileHandler = FileHandler()
-                        val df = convert.singleTime2DataFrame(dataArray)
+                        val df = Converter.singleTime2DataFrame(dataArray)
                         fileHandler.checkFolder("test")
                         fileHandler.saveDataFrame("test", "singleTime", df)
                     }
-                }
+                }*/
             }
         }
 

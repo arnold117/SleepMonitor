@@ -1,6 +1,8 @@
 package com.arnold.sleepmonitor.process
 
+import com.arnold.sleepmonitor.data_structure.NightData
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
+import com.arnold.sleepmonitor.data_structure.SingleUnitData
 import org.jetbrains.kotlinx.dataframe.AnyFrame
 import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.api.column
@@ -44,6 +46,60 @@ object Converter {
         }
 
         return list
+    }
+
+    fun singleUnit2DataFrame(list: List<SingleUnitData>) : AnyFrame {
+        val time by column(list.map { it.time })
+        val meanLux by column(list.map { it.meanLux })
+        val movesCount by column(list.map { it.movesCount })
+        val snoreCount by column(list.map { it.snoreCount })
+        val meanEnvironmentVolume by column(list.map { it.meanEnvironmentVolume })
+        val status by column(list.map { it.status })
+
+        return dataFrameOf(time, meanLux, movesCount, snoreCount, meanEnvironmentVolume, status)
+    }
+
+    fun dataFrame2SingleUnit(dataFrame: DataFrame<*>) : List<SingleUnitData> {
+        val time = dataFrame["time"].toList()
+        val meanLux = dataFrame["meanLux"].toList()
+        val movesCount = dataFrame["movesCount"].toList()
+        val snoreCount = dataFrame["snoreCount"].toList()
+        val meanEnvironmentVolume = dataFrame["meanEnvironmentVolume"].toList()
+        val status = dataFrame["status"].toList()
+
+        val list = mutableListOf<SingleUnitData>()
+        for (i in time.indices) {
+            list.add(
+                SingleUnitData(
+                    time[i].toString(),
+                    meanLux[i].toString().toDouble(),
+                    movesCount[i].toString().toInt(),
+                    snoreCount[i].toString().toInt(),
+                    meanEnvironmentVolume[i].toString().toDouble(),
+                    status[i].toString().toInt()
+                )
+            )
+        }
+
+        return list
+    }
+
+    fun singleUnit2Night(list: List<SingleUnitData>) : NightData {
+
+        return NightData(
+            list.first().time,
+            list.last().time,
+            Calculator.duration(list.first().time, list.last().time),
+            list.map { it.meanLux }.average(),
+            list.map { it.meanEnvironmentVolume }.average(),
+            Calculator.environmentScore(list),
+            list.filter { it.status == 0 }.size.toDouble() / list.size.toDouble(),
+            list.filter { it.status == 1 }.size.toDouble() / list.size.toDouble(),
+            list.filter { it.status == 2 }.size,
+            Calculator.deepContinuesScore(list),
+            Calculator.respirationQualityScore(list),
+            Calculator.sleepScore(list),
+        )
     }
 
 /*

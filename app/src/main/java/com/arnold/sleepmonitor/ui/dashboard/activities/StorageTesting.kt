@@ -29,9 +29,9 @@ class StorageTesting : AppCompatActivity() {
 //            Log.d("DashboardFragment", fileHandler.listFileNames("test").toString())
             val df = fileHandler.readDataFrame("test", "singleTime")
 
-            val singleTimeData = Converter.dataFrame2SingleTime(df)
-            val duration = Calculator.duration(singleTimeData)
-            editText.setText(duration.toString())
+//            val singleTimeData = Converter.dataFrame2SingleTime(df)
+//            val duration = Calculator.duration(singleTimeData)
+//            editText.setText(duration.toString())
         }
 
         val buttonWrite = binding.buttonWrite

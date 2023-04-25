@@ -4,7 +4,7 @@ data class NightData(
     var startTime: String,
     var endTime: String,
     var duration: Int,
-    var meanLux: Int,
+    var meanLux: Double,
     var meanVolume: Double,
     var environmentScore: Int,
     var deepSleepRatio: Double,

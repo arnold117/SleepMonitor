@@ -2,6 +2,7 @@ package com.arnold.sleepmonitor.process
 
 import com.arnold.sleepmonitor.Cache
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
+import com.arnold.sleepmonitor.data_structure.SingleUnitData
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
@@ -19,13 +20,29 @@ object Calculator {
         }.size
     }
 
-    fun duration(singleTimeData: List<SingleTimeData>) : Int {
-        val start = LocalDateTime.parse(singleTimeData.first().time, Cache.timeFormatter)
-        val end = LocalDateTime.parse(singleTimeData.last().time, Cache.timeFormatter)
+    fun duration(startTime: String, endTime: String) : Int {
+        val start = LocalDateTime.parse(startTime, Cache.timeFormatter)
+        val end = LocalDateTime.parse(endTime, Cache.timeFormatter)
 
         return ChronoUnit.MINUTES.between(
             start,
             end
         ).toInt()
+    }
+
+    fun environmentScore(list: List<SingleUnitData>): Int {
+        return 0
+    }
+
+    fun deepContinuesScore(list: List<SingleUnitData>): Int {
+        return 0
+    }
+
+    fun respirationQualityScore(list: List<SingleUnitData>): Int {
+        return 0
+    }
+
+    fun sleepScore(list: List<SingleUnitData>): Int {
+        return 0
     }
 }
