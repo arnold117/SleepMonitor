@@ -24,6 +24,15 @@ class FileHandler{
         return folder.listFiles()
     }
 
+    fun listFileNames(folderName: String) : ArrayList<String> {
+        val names = ArrayList<String>()
+        File(context.getExternalFilesDir(null), folderName).walk().forEach { it ->
+            names.add(it.name)
+        }
+        names.remove(folderName)
+        return names
+    }
+
     fun readData(folderName: String, identifier: String) : String {
         val filename = "$folderName-$identifier"
         val path = File(context.getExternalFilesDir(null), folderName)

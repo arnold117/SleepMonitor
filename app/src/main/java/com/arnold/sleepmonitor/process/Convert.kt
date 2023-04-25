@@ -10,6 +10,19 @@ import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
 
 class Convert {
     private val calculator = Calculator()
+
+    fun singleTime2DataFrame(list: List<SingleTimeData>) : AnyFrame {
+        val time by column(list.map { it.time })
+        val lux by column(list.map { it.lux })
+        val acc_x by column(list.map { it.acc_x })
+        val acc_y by column(list.map { it.acc_y })
+        val acc_z by column(list.map { it.acc_z })
+        val volume by column(list.map { it.volume })
+        val reverse by column(list.map { it.reverse })
+
+        return dataFrameOf(time, lux, acc_x, acc_y, acc_z, volume, reverse)
+    }
+
     /*
     fun singleTime2Unit(singleTimeData: List<SingleTimeData>) : SingleUnitData {
         val singleUnitData = SingleUnitData(

@@ -24,6 +24,7 @@ class StorageTesting : AppCompatActivity() {
             Toast.makeText(this, "Read Button clicked", Toast.LENGTH_SHORT).show()
 
             editText.setText(fileHandler.readData("test", "test"))
+            Log.d("DashboardFragment", fileHandler.listFileNames("test").toString())
         }
 
         val buttonWrite = binding.buttonWrite
