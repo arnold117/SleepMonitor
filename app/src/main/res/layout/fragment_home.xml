@@ -121,7 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="110dp"
         app:srcCompat="@mipmap/ic_action_play" />
 
     <TextView
@@ -133,9 +133,9 @@
         android:layout_marginEnd="8dp"
         android:text="Press Button to Start Recording"
         android:textAlignment="center"
-        android:textSize="21sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="80dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

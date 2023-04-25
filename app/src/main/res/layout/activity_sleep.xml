@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="110dp"
         app:srcCompat="@mipmap/ic_action_stop" />
 
     <TextView
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="80dp"/>
 
     <TextView
         android:id="@+id/current_time"
