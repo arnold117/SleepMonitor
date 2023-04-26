@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.arnold.sleepmonitor.FileHandler
+import com.arnold.sleepmonitor.data_structure.NightData
 import com.arnold.sleepmonitor.data_structure.SingleUnitData
 import com.arnold.sleepmonitor.databinding.FragmentDayBinding
 import com.arnold.sleepmonitor.process.Calculator
 import com.arnold.sleepmonitor.process.Converter
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
@@ -24,6 +26,7 @@ class DayFragment : Fragment() {
     private val handler = FileHandler()
 
     private val data = getData()
+    private val nightData = getNightData()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,8 +35,10 @@ class DayFragment : Fragment() {
         _binding = FragmentDayBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        setDataText()
         setDayLineChart()
         setDayPieChart()
+        setBodyBarChart()
         setEnvLineChart()
 
         return root
@@ -42,20 +47,30 @@ class DayFragment : Fragment() {
     private fun getData() : List<SingleUnitData> {
         val converter = Converter()
         return converter.dataFrame2SingleUnit(
-            handler.readDataFrame("test", "singleUnit")
+            handler.readDataFrame("test", "singleUnit2")
         )
     }
 
-    private fun setDataText(bind: FragmentDayBinding = binding) {
-        val calculator = Calculator()
+    private fun getNightData() : NightData {
+        val converter = Converter()
+        return converter.singleUnit2Night(data)
+    }
 
-        val time = calculator.duration(data.first().time, data.last().time)
+    private fun setDataText(bind: FragmentDayBinding = binding) {
+        val time = nightData.duration
         val hour = time / 60
         val minute = time % 60
 
         bind.apply {
             dayDuration.text = "$hour:$minute"
-
+            dayStartEndTime.text =
+                "${nightData.startTime.split("T")[1]} - ${nightData.endTime.split("T")[1]}"
+            dayRating.text = nightData.sleepScore.toString()
+            dayDeepContinues.text = nightData.deepContinuesScore.toString()
+            dayRespQuality.text = nightData.respirationQualityScore.toString()
+            dayMeanLux.text = String.format("%.2f", nightData.meanLux)
+            dayMeanVol.text = String.format("%.2f", nightData.meanVolume)
+            dayEnvScore.text = nightData.environmentScore.toString()
         }
     }
 
@@ -65,7 +80,7 @@ class DayFragment : Fragment() {
         val yValueLabel = ArrayList<String>()
 
         data.map { it ->
-            val time = it.time.split(".")[1].split(":")
+            val time = it.time.split("T")[1].split(":")
             val hm = "${time[0]}:${time[1]}"
             xValueList.add(hm)
             yValueList.add(it.status.toFloat()) }
@@ -126,17 +141,17 @@ class DayFragment : Fragment() {
         val xValueList = ArrayList<String>()
         val yValueList = ArrayList<Float>()
 
-        val deep = data.filter { it.status == 0 }.size.toFloat() / data.size.toFloat()
-        val light = data.filter { it.status == 1 }.size.toFloat() / data.size.toFloat()
-        val awake = data.filter { it.status == 2 }.size.toFloat() / data.size.toFloat()
-
         xValueList.add("Deep")
         xValueList.add("Light")
-        xValueList.add("Awake")
 
-        yValueList.add(deep)
-        yValueList.add(light)
-        yValueList.add(awake)
+        yValueList.add(nightData.deepSleepRatio.toFloat())
+        yValueList.add(nightData.lightSleepRatio.toFloat())
+
+        if (nightData.awakeCount > 1) {
+            xValueList.add("Awake")
+            val awake = nightData.awakeCount.toFloat() / data.size.toFloat()
+            yValueList.add(awake)
+        }
 
         val pieChartEntry = ArrayList<PieEntry>()
         for ((i, value) in yValueList.withIndex()) {
@@ -163,13 +178,75 @@ class DayFragment : Fragment() {
         pie.invalidate()
     }
 
+    private fun setBodyBarChart(bar: BarChart = binding.dayBarChart) {
+        val timeList = ArrayList<String>()
+        val moveList = ArrayList<Float>()
+        val snoreList = ArrayList<Float>()
+
+        data.map { it ->
+            val time = it.time.split("T")[1].split(":")
+            val hm = "${time[0]}:${time[1]}"
+            timeList.add(hm)
+            moveList.add(it.movesCount.toFloat())
+            snoreList.add(it.snoreCount.toFloat())
+        }
+
+        val moveEntry = ArrayList<BarEntry>()
+        for ((i, value) in moveList.withIndex()) {
+            moveEntry.add(BarEntry(i.toFloat(), value))
+        }
+
+        val snoreEntry = ArrayList<BarEntry>()
+        for ((i, value) in snoreList.withIndex()) {
+            snoreEntry.add(BarEntry(i.toFloat(), value))
+        }
+
+        val moveDataSet = BarDataSet(moveEntry, "Body Movement")
+        moveDataSet.color = resources.getColor(android.R.color.holo_blue_light)
+        moveDataSet.valueTextSize = 16f
+
+        val snoreDataSet = BarDataSet(snoreEntry, "Snore")
+        snoreDataSet.color = resources.getColor(android.R.color.holo_green_light)
+        snoreDataSet.valueTextSize = 16f
+
+        val barData = BarData(moveDataSet, snoreDataSet)
+        barData.barWidth = 0.5f
+        bar.data = barData
+
+        bar.description.isEnabled = false
+        bar.setDrawGridBackground(false)
+        bar.setDrawBorders(false)
+        bar.setTouchEnabled(false)
+
+        bar.xAxis.apply {
+            setDrawGridLines(false)
+            position = XAxis.XAxisPosition.BOTTOM
+            valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return timeList[value.toInt()]
+                }
+            }
+        }
+
+        bar.axisLeft.apply {
+            setDrawGridLines(false)
+        }
+
+        bar.axisRight.apply {
+            setDrawGridLines(false)
+            setDrawLabels(false)
+        }
+
+        bar.invalidate()
+    }
+
     private fun setEnvLineChart(envLine : LineChart = binding.envLineChart) {
         val timeList = ArrayList<String>()
         val illuminationList = ArrayList<Float>()
         val voiceVolumeList = ArrayList<Float>()
 
         data.map { it ->
-            val time = it.time.split(".")[1].split(":")
+            val time = it.time.split("T")[1].split(":")
             val hm = "${time[0]}:${time[1]}"
             timeList.add(hm)
             illuminationList.add(it.meanLux.toFloat())

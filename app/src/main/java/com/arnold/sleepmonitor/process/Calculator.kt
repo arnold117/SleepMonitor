@@ -21,8 +21,8 @@ class Calculator {
     }
 
     fun duration(startTime: String, endTime: String) : Int {
-        val start = LocalDateTime.parse(startTime, Cache.timeFormatter)
-        val end = LocalDateTime.parse(endTime, Cache.timeFormatter)
+        val start = LocalDateTime.parse(startTime)
+        val end = LocalDateTime.parse(endTime)
 
         return ChronoUnit.MINUTES.between(
             start,
@@ -31,6 +31,7 @@ class Calculator {
     }
 
     fun environmentScore(list: List<SingleUnitData>): Int {
+
         return 0
     }
 
@@ -43,6 +44,12 @@ class Calculator {
     }
 
     fun sleepScore(list: List<SingleUnitData>): Int {
+        val envScore = environmentScore(list)
+        val deepScore = deepContinuesScore(list)
+        val respirationScore = respirationQualityScore(list)
+
+
+
         return 0
     }
 }
