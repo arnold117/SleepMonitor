@@ -2,6 +2,7 @@ package com.arnold.sleepmonitor.process
 
 import android.util.Log
 import com.arnold.sleepmonitor.Cache
+import com.arnold.sleepmonitor.data_structure.NightData
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
 import com.arnold.sleepmonitor.data_structure.SingleUnitData
 import org.jetbrains.kotlinx.dataframe.math.mean
@@ -9,6 +10,8 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class Calculator {
+    // for unit
+
     fun movesCount(singleTimeData: List<SingleTimeData>) : Int {
         return singleTimeData.filter {
             it.acc_x > 0.1 || it.acc_y > 0.1 || it.acc_z > 0.1
@@ -21,6 +24,8 @@ class Calculator {
             it.volume > 0.1
         }.size
     }
+
+    // for night
 
     fun duration(startTime: String, endTime: String) : Int {
         val start = LocalDateTime.parse(startTime)

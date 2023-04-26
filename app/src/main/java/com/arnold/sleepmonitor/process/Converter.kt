@@ -3,6 +3,7 @@ package com.arnold.sleepmonitor.process
 import com.arnold.sleepmonitor.data_structure.NightData
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
 import com.arnold.sleepmonitor.data_structure.SingleUnitData
+import com.arnold.sleepmonitor.data_structure.WeekData
 import org.jetbrains.kotlinx.dataframe.AnyFrame
 import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.api.column
@@ -100,6 +101,20 @@ class Converter {
             list.filter { it.status == 2 }.size,
             calculator.respirationQualityScore(list),
             calculator.sleepScore(list),
+        )
+    }
+
+    fun night2Week(list: List<NightData>) : WeekData {
+        return WeekData(
+            list.map {it.duration}.average().toInt(),
+            list.map {it.meanLux}.average(),
+            list.map {it.meanVolume}.average(),
+            list.map {it.deepSleepRatio}.average(),
+            list.map { it.lightSleepRatio }.average(),
+            list.map { it.awakeCount }.average().toInt(),
+            list.map { it.environmentScore }.average().toInt(),
+            list.map { it.respirationQualityScore }.average().toInt(),
+            list.map { it.sleepScore }.average().toInt()
         )
     }
 
