@@ -95,10 +95,9 @@ class Converter {
             list.map { it.meanLux }.average(),
             list.map { it.meanEnvironmentVolume }.average(),
             calculator.environmentScore(list),
-            list.filter { it.status == 0 }.size.toDouble() / list.size.toDouble(),
-            list.filter { it.status == 1 }.size.toDouble() / list.size.toDouble(),
+            calculator.deepRatio(list),
+            calculator.lightRatio(list),
             list.filter { it.status == 2 }.size,
-            calculator.deepContinuesScore(list),
             calculator.respirationQualityScore(list),
             calculator.sleepScore(list),
         )

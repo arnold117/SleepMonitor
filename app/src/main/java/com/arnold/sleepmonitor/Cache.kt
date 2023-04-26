@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter
 object Cache {
     var isRecording = false
 
+    val timeGap = 5
+
     val stdDurationLow = 360
     val stdDurationHigh = 600
 

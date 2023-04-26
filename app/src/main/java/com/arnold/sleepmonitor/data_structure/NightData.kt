@@ -10,7 +10,6 @@ data class NightData(
     var deepSleepRatio: Double,
     var lightSleepRatio: Double,
     var awakeCount: Int,
-    var deepContinuesScore: Int,
     var respirationQualityScore: Int,
     var sleepScore: Int
 )

@@ -66,7 +66,6 @@ class DayFragment : Fragment() {
             dayStartEndTime.text =
                 "${nightData.startTime.split("T")[1]} - ${nightData.endTime.split("T")[1]}"
             dayRating.text = nightData.sleepScore.toString()
-            dayDeepContinues.text = nightData.deepContinuesScore.toString()
             dayRespQuality.text = nightData.respirationQualityScore.toString()
             dayMeanLux.text = String.format("%.2f", nightData.meanLux)
             dayMeanVol.text = String.format("%.2f", nightData.meanVolume)

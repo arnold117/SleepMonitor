@@ -4,6 +4,7 @@ import android.util.Log
 import com.arnold.sleepmonitor.Cache
 import com.arnold.sleepmonitor.data_structure.SingleTimeData
 import com.arnold.sleepmonitor.data_structure.SingleUnitData
+import org.jetbrains.kotlinx.dataframe.math.mean
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
@@ -31,6 +32,14 @@ class Calculator {
         ).toInt()
     }
 
+    fun deepRatio(list: List<SingleUnitData>): Double {
+        return list.filter { it.status == 0 }.size.toDouble() / list.size.toDouble()
+    }
+
+    fun lightRatio(list: List<SingleUnitData>): Double {
+        return list.filter { it.status == 1 }.size.toDouble() / list.size.toDouble()
+    }
+
     fun environmentScore(list: List<SingleUnitData>): Int {
         val meanLux = list.map { it.meanLux }.average()
         val meanVolume = list.map { it.meanEnvironmentVolume }.average()
@@ -48,12 +57,6 @@ class Calculator {
         return score.toInt()
     }
 
-    fun deepContinuesScore(list: List<SingleUnitData>): Int {
-
-
-        return 0
-    }
-
     fun respirationQualityScore(list: List<SingleUnitData>): Int {
         val calculator = Calculator()
 
@@ -63,12 +66,6 @@ class Calculator {
         val hour = duration / 60
         val snoreHigh = Cache.stdSnoreHighPerHour * hour
         val div : Double = (snoreCount.toDouble() - snoreHigh) / snoreHigh
-
-        Log.d("snoreCount", snoreCount.toString())
-        Log.d("duration", duration.toString())
-        Log.d("hour", hour.toString())
-        Log.d("snoreHigh", snoreHigh.toString())
-        Log.d("div", div.toString())
 
         val score = (0.5 - div) * 100
         if (score >= 100) {
@@ -82,11 +79,30 @@ class Calculator {
 
     fun sleepScore(list: List<SingleUnitData>): Int {
         val envScore = environmentScore(list)
-        val deepScore = deepContinuesScore(list)
         val respirationScore = respirationQualityScore(list)
+        val duration = duration(list[0].time, list[list.size - 1].time)
+        val deepRatio = deepRatio(list)
+        val lightRatio = lightRatio(list)
+        val awakeCount = list.filter { it.status == 2 }.size
 
+        val durationMid = (Cache.stdDurationLow + Cache.stdDurationHigh) / 2
+        val durationDiv = (duration.toDouble() - durationMid) / durationMid
 
+        val deepRatioMid = (Cache.stdDeepRatioLow + Cache.stdDeepRatioHigh) / 2
+        val deepRatioDiv = (deepRatio - deepRatioMid) / deepRatioMid
 
-        return 0
+        val lightRatioDiv = (lightRatio - Cache.stdLightRatioHigh) / Cache.stdLightRatioHigh
+
+        val awakeDiv = (awakeCount - Cache.stdAwakeHigh) / Cache.stdAwakeHigh
+
+        var score = (1 - durationDiv - deepRatioDiv - lightRatioDiv - awakeDiv) * 100
+        score = (score + envScore + respirationScore) / 3
+        if (score >= 100) {
+            return 100
+        } else if (score <= 0) {
+            return 0
+        }
+
+        return score.toInt()
     }
 }
