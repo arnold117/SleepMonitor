@@ -104,6 +104,41 @@ class Converter {
         )
     }
 
+    fun dataFrame2Night(dataFrame: DataFrame<*>) : List<NightData> {
+        val startTime = dataFrame["startTime"].toList()
+        val endTime = dataFrame["endTime"].toList()
+        val duration = dataFrame["duration"].toList()
+        val meanLux = dataFrame["meanLux"].toList()
+        val meanVolume = dataFrame["meanVolume"].toList()
+        val environmentScore = dataFrame["environmentScore"].toList()
+        val deepSleepRatio = dataFrame["deepSleepRatio"].toList()
+        val lightSleepRatio = dataFrame["lightSleepRatio"].toList()
+        val awakeCount = dataFrame["awakeCount"].toList()
+        val respirationQualityScore = dataFrame["respirationQualityScore"].toList()
+        val sleepScore = dataFrame["sleepScore"].toList()
+
+        val list = mutableListOf<NightData>()
+        for (i in startTime.indices) {
+            list.add(
+                NightData(
+                    startTime[i].toString(),
+                    endTime[i].toString(),
+                    duration[i].toString().toInt(),
+                    meanLux[i].toString().toDouble(),
+                    meanVolume[i].toString().toDouble(),
+                    environmentScore[i].toString().toInt(),
+                    deepSleepRatio[i].toString().toDouble(),
+                    lightSleepRatio[i].toString().toDouble(),
+                    awakeCount[i].toString().toInt(),
+                    respirationQualityScore[i].toString().toInt(),
+                    sleepScore[i].toString().toInt()
+                )
+            )
+        }
+
+        return list
+    }
+
     fun night2Week(list: List<NightData>) : WeekData {
         return WeekData(
             list.map {it.duration}.average().toInt(),
