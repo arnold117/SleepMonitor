@@ -51,6 +51,24 @@ class Converter {
         return list
     }
 
+    fun singleTime2Unit(list: List<SingleTimeData>) : SingleUnitData {
+        val time = list[0].time
+        val meanLux = list.map { it.lux }.average()
+        val movesCount = calculator.movesCount(list)
+        val snoreCount = calculator.snoreCount(list)
+        val meanEnvironmentVolume = list.map { it.volume }.average()
+        val status = calculator.status(list)
+
+        return SingleUnitData(
+            time,
+            meanLux,
+            movesCount,
+            snoreCount,
+            meanEnvironmentVolume,
+            status
+        )
+    }
+
     fun singleUnit2DataFrame(list: List<SingleUnitData>) : AnyFrame {
         val time by column(list.map { it.time })
         val meanLux by column(list.map { it.meanLux })

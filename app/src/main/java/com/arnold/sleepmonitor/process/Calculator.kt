@@ -19,10 +19,29 @@ class Calculator {
     }
 
     fun snoreCount(singleTimeData: List<SingleTimeData>) : Int {
+        val meanVol = singleTimeData.map { it.volume }.average()
+
         return singleTimeData.filter {
-            // ai generated, need to be modified
-            it.volume > 0.1
+            it.volume > meanVol * 1.3 && it.reverse <= 500
         }.size
+    }
+
+    fun status(singleTimeData: List<SingleTimeData>) : Int {
+        val movesCount = movesCount(singleTimeData)
+        val snoreCount = snoreCount(singleTimeData)
+
+        val moveRatio = movesCount.toDouble() / singleTimeData.size.toDouble()
+        val snoreRatio = snoreCount.toDouble() / singleTimeData.size.toDouble()
+
+        return if (moveRatio > 0.3) {
+            2
+        } else if (moveRatio > 0.05) {
+            1
+        } else if (snoreRatio > 0.05) {
+            1
+        } else {
+            0
+        }
     }
 
     // for night
