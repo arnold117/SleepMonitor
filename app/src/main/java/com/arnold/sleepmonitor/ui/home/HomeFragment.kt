@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.arnold.sleepmonitor.Cache
-import com.arnold.sleepmonitor.R
+import com.arnold.sleepmonitor.FileHandler
+import com.arnold.sleepmonitor.data_structure.NightData
+import com.arnold.sleepmonitor.data_structure.SingleUnitData
 import com.arnold.sleepmonitor.databinding.FragmentHomeBinding
+import com.arnold.sleepmonitor.process.Converter
 import com.arnold.sleepmonitor.recorder.*
 import com.arnold.sleepmonitor.ui.home.activities.SleepActivity
 import com.github.mikephil.charting.charts.LineChart
@@ -27,6 +30,10 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     val TAG = "HomeFragment"
+    val handler = FileHandler()
+
+    private val data = getData()
+    private val nightData = getNightData()
 
     @SuppressLint("CommitTransaction")
     override fun onCreateView(
@@ -40,7 +47,8 @@ class HomeFragment : Fragment() {
         val overview = binding.homeCardSleepOverview
         val buttonRecording = binding.buttonRecording
 
-        setDayLineChart()
+        setDataText()
+        setLineChart()
 
         overview.setOnClickListener {
             Toast.makeText(context, "Go to Records Page for more detail!", Toast.LENGTH_SHORT).show()
@@ -56,33 +64,41 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    private fun setDayLineChart(line: LineChart = binding.dayLineChart) {
+    private fun getData() : List<SingleUnitData> {
+        val converter = Converter()
+        return converter.dataFrame2SingleUnit(
+            handler.readDataFrame("test", "singleUnit2")
+        )
+    }
+
+    private fun getNightData() : NightData {
+        val converter = Converter()
+        return converter.singleUnit2Night(data)
+    }
+
+    private fun setDataText(bind: FragmentHomeBinding = binding) {
+        val time = nightData.duration
+        val hour = time / 60
+        val minute = time % 60
+
+        bind.apply {
+            homeDuration.text = "${hour}h ${minute}m"
+            homeStartEndTime.text =
+                "${nightData.startTime.split("T")[1]} - ${nightData.endTime.split("T")[1]}"
+        }
+    }
+
+    private fun setLineChart(line: LineChart = binding.homeLineChart) {
         val xValueList = ArrayList<String>()
         val yValueList = ArrayList<Float>()
         val yValueLabel = ArrayList<String>()
 
-        xValueList.add("22:00")
-        xValueList.add("23:00")
-        xValueList.add("00:00")
-        xValueList.add("01:00")
-        xValueList.add("02:00")
-        xValueList.add("03:00")
-        xValueList.add("04:00")
-        xValueList.add("05:00")
-        xValueList.add("06:00")
-        xValueList.add("07:00")
-        xValueList.add("08:00")
-
-        yValueList.add(2f)
-        yValueList.add(1f)
-        yValueList.add(0f)
-        yValueList.add(0f)
-        yValueList.add(1f)
-        yValueList.add(1f)
-        yValueList.add(0f)
-        yValueList.add(0f)
-        yValueList.add(1f)
-        yValueList.add(2f)
+       data.map { it ->
+           val time = it.time.split("T")[1].split(":")
+           val hm = "${time[0]}:${time[1]}"
+           xValueList.add(hm)
+           yValueList.add(it.status.toFloat())
+       }
 
         yValueLabel.add("Deep")
         yValueLabel.add("Light")

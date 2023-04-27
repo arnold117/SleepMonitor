@@ -62,7 +62,7 @@ class DayFragment : Fragment() {
         val minute = time % 60
 
         bind.apply {
-            dayDuration.text = "$hour:$minute"
+            dayDuration.text = "${hour}h${minute}m"
             dayStartEndTime.text =
                 "${nightData.startTime.split("T")[1]} - ${nightData.endTime.split("T")[1]}"
             dayRating.text = nightData.sleepScore.toString()

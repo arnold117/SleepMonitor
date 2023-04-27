@@ -48,19 +48,46 @@
                 android:textAlignment="center"
                 android:textSize="16sp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:text="Sleep Duration"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:id="@+id/home_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:text="sleep duration"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
             <TextView
-                android:id="@+id/day_duration"
+                android:id="@+id/home_start_end_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Your sleep duration"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:text="Start Time - End Time"/>
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/day_line_chart"
+                android:id="@+id/home_line_chart"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="10dp" />
