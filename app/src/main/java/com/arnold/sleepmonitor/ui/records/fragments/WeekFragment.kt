@@ -13,9 +13,11 @@ import com.arnold.sleepmonitor.process.Converter
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
+import org.apache.poi.sl.usermodel.Line
 
 class WeekFragment : Fragment() {
     private var _binding: FragmentWeekBinding? = null
@@ -157,8 +159,73 @@ class WeekFragment : Fragment() {
         pie.invalidate()
     }
 
-    private fun setEnvLineChart(bind: FragmentWeekBinding = binding) {
+    private fun setEnvLineChart(envLine : LineChart = binding.envLineChart) {
+        val timeList = ArrayList<String>()
+        val luxList = ArrayList<Float>()
+        val volList = ArrayList<Float>()
 
+        data.map { it ->
+            val date = it.startTime.split("T")[0].split("-")
+            timeList.add("${date[1]}/${date[2]}")
+            luxList.add(it.meanLux.toFloat())
+            volList.add(it.meanVolume.toFloat())
+        }
+
+        val luxEntry = ArrayList<Entry>()
+        for((i, value) in luxList.withIndex()) {
+            luxEntry.add(Entry(i.toFloat(), value))
+        }
+
+        val volEntry = ArrayList<Entry>()
+        for((i, value) in volList.withIndex()) {
+            volEntry.add(Entry(i.toFloat(), value))
+        }
+
+        val luxDataSet = LineDataSet(luxEntry, "Lux")
+        luxDataSet.color = resources.getColor(android.R.color.holo_blue_light)
+        luxDataSet.setDrawCircles(false)
+        luxDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        luxDataSet.lineWidth = 3f
+        luxDataSet.setDrawValues(false)
+        luxDataSet.axisDependency = YAxis.AxisDependency.LEFT
+
+        val volDataSet = LineDataSet(volEntry, "Volume")
+        volDataSet.color = resources.getColor(android.R.color.holo_green_light)
+        volDataSet.setDrawCircles(false)
+        volDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        volDataSet.lineWidth = 3f
+        volDataSet.setDrawValues(false)
+        volDataSet.axisDependency = YAxis.AxisDependency.RIGHT
+
+        val lineData = LineData(luxDataSet, volDataSet)
+        envLine.data = lineData
+
+        envLine.description.isEnabled = false
+        envLine.setDrawGridBackground(false)
+        envLine.setDrawBorders(false)
+        envLine.setTouchEnabled(false)
+
+        envLine.xAxis.apply {
+            setDrawGridLines(false)
+            position = XAxis.XAxisPosition.BOTTOM
+            valueFormatter = object :ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return timeList[value.toInt()]
+                }
+            }
+        }
+
+        envLine.axisLeft.apply {
+            setDrawGridLines(false)
+            textColor = resources.getColor(android.R.color.holo_blue_light)
+        }
+
+        envLine.axisRight.apply {
+            setDrawGridLines(false)
+            textColor = resources.getColor(android.R.color.holo_green_light)
+        }
+
+        envLine.invalidate()
     }
 
     override fun onDestroyView() {
