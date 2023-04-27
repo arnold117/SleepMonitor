@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.arnold.sleepmonitor.R
 import com.arnold.sleepmonitor.databinding.FragmentRecordsBinding
@@ -53,17 +54,19 @@ class RecordsFragment : Fragment() {
         }
 
         monthButton.setOnClickListener() {
-            val monthFragment = MonthFragment()
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.records_fragment_container, monthFragment)
-            transaction.commit()
+//            val monthFragment = MonthFragment()
+//            val transaction = parentFragmentManager.beginTransaction()
+//            transaction.replace(R.id.records_fragment_container, monthFragment)
+//            transaction.commit()
+            Toast.makeText(context, "You don't have Enough Data to Proceed!", Toast.LENGTH_SHORT).show()
         }
 
         yearButton.setOnClickListener() {
-            val yearFragment = YearFragment()
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.records_fragment_container, yearFragment)
-            transaction.commit()
+//            val yearFragment = YearFragment()
+//            val transaction = parentFragmentManager.beginTransaction()
+//            transaction.replace(R.id.records_fragment_container, yearFragment)
+//            transaction.commit()
+            Toast.makeText(context, "You don't have Enough Data to Proceed!", Toast.LENGTH_SHORT).show()
         }
 
         return root
