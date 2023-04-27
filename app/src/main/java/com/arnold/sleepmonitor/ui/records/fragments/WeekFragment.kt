@@ -10,6 +10,12 @@ import com.arnold.sleepmonitor.data_structure.NightData
 import com.arnold.sleepmonitor.data_structure.WeekData
 import com.arnold.sleepmonitor.databinding.FragmentWeekBinding
 import com.arnold.sleepmonitor.process.Converter
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 
 class WeekFragment : Fragment() {
     private var _binding: FragmentWeekBinding? = null
@@ -60,8 +66,55 @@ class WeekFragment : Fragment() {
         }
     }
 
-    private fun setDurationLineChart(bind: FragmentWeekBinding = binding) {
+    private fun setDurationLineChart(line: LineChart = binding.durationLineChart) {
+        val timeList = ArrayList<String>()
+        val durationList = ArrayList<Int>()
 
+        data.map { it ->
+            val date = it.startTime.split("T")[0].split("-")
+            timeList.add("${date[1]}/${date[2]}")
+            durationList.add(it.duration)
+        }
+
+        val lineEntry = ArrayList<Entry>()
+        for (i in 0 until timeList.size) {
+            lineEntry.add(Entry(i.toFloat(), durationList[i].toFloat()))
+        }
+
+        val lineDataSet = LineDataSet(lineEntry, "Duration")
+        lineDataSet.color = resources.getColor(android.R.color.holo_blue_light)
+        lineDataSet.setDrawCircles(false)
+        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        lineDataSet.lineWidth = 3f
+
+        val lineData = LineData(lineDataSet)
+        line.data = lineData
+
+        line.description.isEnabled = false
+        line.setDrawGridBackground(false)
+        line.setDrawBorders(false)
+        line.setTouchEnabled(false)
+
+        line.xAxis.apply {
+            setDrawGridLines(false)
+            position = XAxis.XAxisPosition.BOTTOM
+            valueFormatter = object :ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return timeList[value.toInt()]
+                }
+            }
+        }
+
+        line.axisLeft.apply {
+            setDrawGridLines(false)
+        }
+
+        line.axisRight.apply {
+            setDrawGridLines(false)
+            setDrawLabels(false)
+        }
+
+        line.invalidate()
     }
 
     private fun setPieChart(bind: FragmentWeekBinding = binding) {
