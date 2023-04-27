@@ -11,10 +11,10 @@ import com.arnold.sleepmonitor.data_structure.WeekData
 import com.arnold.sleepmonitor.databinding.FragmentWeekBinding
 import com.arnold.sleepmonitor.process.Converter
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 
 class WeekFragment : Fragment() {
@@ -117,8 +117,44 @@ class WeekFragment : Fragment() {
         line.invalidate()
     }
 
-    private fun setPieChart(bind: FragmentWeekBinding = binding) {
+    private fun setPieChart(pie: PieChart = binding.averageRatioPieChart) {
+        val labelList = ArrayList<String>()
+        val ratioList = ArrayList<Float>()
 
+        labelList.add("Deep")
+        labelList.add("Light")
+
+        ratioList.add(weekData.aveDeepRatio.toFloat())
+        ratioList.add(weekData.aveLightRatio.toFloat())
+
+        if (weekData.aveAwakeCount > 1) {
+            labelList.add("Awake")
+            ratioList.add(weekData.aveAwakeCount.toFloat() / data.size.toFloat())
+        }
+
+        val pieEntry = ArrayList<PieEntry>()
+        for ((i, value) in ratioList.withIndex()) {
+            pieEntry.add(PieEntry(value, labelList[i]))
+        }
+
+        val pieDataSet = PieDataSet(pieEntry, "Ratio")
+        pieDataSet.colors = listOf(
+            resources.getColor(android.R.color.holo_blue_light),
+            resources.getColor(android.R.color.holo_green_light),
+            resources.getColor(android.R.color.holo_red_light)
+        )
+        pieDataSet.valueTextSize = 16f
+        pieDataSet.sliceSpace = 3f
+
+        val pieData = PieData(pieDataSet)
+        pieData.setValueFormatter(PercentFormatter(pie))
+        pie.data = pieData
+
+        pie.description.isEnabled = false
+        pie.legend.isEnabled = false
+        pie.setUsePercentValues(true)
+
+        pie.invalidate()
     }
 
     private fun setEnvLineChart(bind: FragmentWeekBinding = binding) {
