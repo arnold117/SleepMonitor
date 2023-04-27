@@ -2,6 +2,7 @@ package com.arnold.sleepmonitor.ui.home
 
 import android.annotation.SuppressLint
 import android.os.*
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +86,42 @@ class HomeFragment : Fragment() {
             homeDuration.text = "${hour}h ${minute}m"
             homeStartEndTime.text =
                 "${nightData.startTime.split("T")[1]} - ${nightData.endTime.split("T")[1]}"
+            homeAdvise.text = getAdvise()
         }
+    }
+
+    private fun getAdvise() : String {
+        var advise = ""
+
+        if (nightData.deepSleepRatio < Cache.stdDeepRatioLow) {
+            advise += "You seems to have insufficient deep sleep, "
+            advise += "how about do some sports today?"
+        } else if (nightData.deepSleepRatio > Cache.stdDeepRatioHigh) {
+            advise += "You seems very tired for you have excessive deep sleep, "
+            advise += "why not try to have more fun today?"
+        }
+
+        if (nightData.meanLux > Cache.stdLuxHigh) {
+            advise += "You seems to have excessive light exposure, "
+            advise += "you should sleep in a darker environment."
+        }
+
+        if (nightData.meanVolume > Cache.stdVolHigh) {
+            advise += "You seems to have excessive noise exposure, "
+            advise += "you should sleep in a quieter environment."
+        }
+
+        if (nightData.duration < Cache.stdDurationLow) {
+            advise += "You seems to have insufficient sleep, "
+            advise += "how about drop some work today?"
+        } else if (nightData.duration > Cache.stdDurationHigh) {
+            advise += "You seems to have excessive sleep, "
+            advise += "some sports may help you sleep better."
+        }
+
+        Log.i(TAG, "deep: ${nightData.deepSleepRatio}, advise: $advise")
+
+        return advise
     }
 
     private fun setLineChart(line: LineChart = binding.homeLineChart) {
