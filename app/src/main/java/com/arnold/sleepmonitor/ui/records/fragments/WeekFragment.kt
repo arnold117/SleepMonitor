@@ -55,9 +55,11 @@ class WeekFragment : Fragment() {
     }
 
     private fun setDataText(bind: FragmentWeekBinding = binding) {
+        val hour = weekData.aveDuration / 60
+        val min = weekData.aveDuration % 60
 
         bind.apply {
-            weekDuration.text = weekData.aveDuration.toString()
+            weekDuration.text = "${hour}h${min}m"
             startEndDate.text =
                 "${data.first().startTime.split("T")[0]} ~ ${data.last().endTime.split("T")[0]}"
             meanRating.text = weekData.aveSleepScore.toString()
